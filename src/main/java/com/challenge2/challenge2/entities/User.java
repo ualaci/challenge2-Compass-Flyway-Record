@@ -1,20 +1,22 @@
 package com.challenge2.challenge2.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Data
-@Table(name = "user", schema = "scholarshipprogramclasses")
 @Getter
 @Setter
-public class User {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@MappedSuperclass
+public class User{
 
     @Id
     @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long Id;
 
     @Column(name = "name")
     private String name;

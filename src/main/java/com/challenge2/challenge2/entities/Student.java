@@ -1,14 +1,15 @@
 package com.challenge2.challenge2.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Entity
 @Data
-@Table(name = "student", schema = "scholarshipprogramclasses")
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Getter
 @Setter
 public class Student extends User{
@@ -30,13 +31,5 @@ public class Student extends User{
 
     @Column(name = "end_date")
     private LocalDateTime endDate;
-
-    @ManyToOne
-    @JoinColumn(name = "squad_id")
-    private Squad squad;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
 }
