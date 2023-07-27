@@ -15,7 +15,6 @@ public class ClassServiceImpl implements ClassService{
         this.classRepository = classRepository;
     }
 
-
     public List<Classes> getAllClasses() {
         return classRepository.findAll();
     }
