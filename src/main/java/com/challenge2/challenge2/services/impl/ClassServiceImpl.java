@@ -5,6 +5,7 @@ import com.challenge2.challenge2.repositories.ClassRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClassServiceImpl implements ClassService{
@@ -19,10 +20,12 @@ public class ClassServiceImpl implements ClassService{
         return classRepository.findAll();
     }
 
-    public Classes getClassById(Long id) {
+    @Override
+    public Optional<Classes> getClassById(Long id) {
 
-        return classRepository.findById(id).orElse(null);
+        return classRepository.findById(id);
     }
+
 
     public Classes saveClass(Classes c) {
         return classRepository.save(c);
@@ -32,4 +35,6 @@ public class ClassServiceImpl implements ClassService{
 
         classRepository.deleteById(id);
     }
+
+   
 }
