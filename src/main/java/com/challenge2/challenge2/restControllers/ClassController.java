@@ -1,11 +1,15 @@
 package com.challenge2.challenge2.restControllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,21 +33,32 @@ public class ClassController {
     }
 
     @GetMapping("/{id}")
-    public Classes getClassById(@PathVariable Long id){
+    public Optional<Classes> getClassById(@PathVariable Long id){
         return classService.getClassById(id);
     }
     
     @PostMapping
-    public Classes addClass(@RequestBody Classes classes){
-        return classService.saveClass(classes);
+    public ResponseEntity<Classes> addClass(@RequestBody Classes classes){
+       Classes savedClass = classService.saveClass(classes);
+       return new ResponseEntity<Classes>(savedClass, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClass(@PathVariable Long id){
-       Classes c = classService.getClassById(id);
+    public ResponseEntity<String> deleteClass(@PathVariable Long id){
+       return classService.getClassById(id).map(entidade -> {
+            classService.deleteClass(entidade.getId());
+            return new ResponseEntity<String>("Classe apagada com sucesso!", HttpStatus.OK);
+        
+       }).orElseGet(() -> 
+           new ResponseEntity<String>("Essa classe não existe!", HttpStatus.BAD_REQUEST));
+    }
 
-       if(c != null){
-        classService.deleteClass(c.getId());
-       }
+    @PutMapping
+    public ResponseEntity<String> updateClass(@RequestBody Classes classes){
+       return classService.getClassById(classes.getId()).map(entidade -> {
+            classService.saveClass(entidade);
+            return new ResponseEntity<String>("Classe atualizada com sucesso!", HttpStatus.OK);        
+       }).orElseGet(() -> 
+           new ResponseEntity<String>("Essa classe não existe!", HttpStatus.BAD_REQUEST));
     }
 }
