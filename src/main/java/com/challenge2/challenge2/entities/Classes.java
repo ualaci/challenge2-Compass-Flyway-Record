@@ -3,6 +3,8 @@ package com.challenge2.challenge2.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @Getter
@@ -10,14 +12,18 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Squad{
+public class Classes {
 
     @Id
-    @Column(name = "squad_id")
+    @Column(name = "class_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long squadId;
+    private Long Id;
 
-    @Column(name = "squad_name")
-    private Long squadName;
+    @Column(name = "learning_path")
+    private String learningPath;
+
+    @Column(name= "sprint")
+    private Integer sprint;
+
 
 }
