@@ -3,8 +3,6 @@ package com.challenge2.challenge2.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Data
 @Getter
