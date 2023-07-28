@@ -46,4 +46,8 @@ public class StudentServiceImpl implements StudentService{
 
         studentRepository.deleteById(id);
     }
+
+    public boolean existsById(Long studentId) {
+        return studentRepository.existsById(studentId);
+    }
 }

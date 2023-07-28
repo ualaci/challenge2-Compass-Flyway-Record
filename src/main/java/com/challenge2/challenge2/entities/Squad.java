@@ -20,7 +20,7 @@ public class Squad{
     private Long squadId;
 
     @Column(name = "squadName")
-    private Long squadName;
+    private String squadName;
 
     @OneToMany(mappedBy = "squad")
     private List<Student> students;

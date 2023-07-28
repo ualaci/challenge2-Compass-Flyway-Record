@@ -1,10 +1,12 @@
 package com.challenge2.challenge2.services.impl;
 
 import com.challenge2.challenge2.entities.Organizer;
+import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrganizerServiceImpl implements OrganizerService{
@@ -22,8 +24,8 @@ public class OrganizerServiceImpl implements OrganizerService{
         return organizerRepository.findAll();
     }
 
-    public Organizer getOrganizerById(Long id) {
-        return organizerRepository.findById(id).orElse(null);
+    public Optional<Organizer> getOrganizerById(Long id) {
+        return organizerRepository.findById(id);
     }
 
     public Organizer saveOrganizer(Organizer organizer) {
