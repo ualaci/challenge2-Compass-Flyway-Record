@@ -36,28 +36,29 @@ public class ClassController {
     public Optional<Classes> getClassById(@PathVariable Long id){
         return classService.getClassById(id);
     }
-    
+
     @PostMapping
     public ResponseEntity<Classes> addClass(@RequestBody Classes classes){
-       Classes savedClass = classService.saveClass(classes);
-       return new ResponseEntity<Classes>(savedClass, HttpStatus.CREATED);
+        Classes savedClass = classService.saveClass(classes);
+        return new ResponseEntity<Classes>(savedClass, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClass(@PathVariable Long id){
-       return classService.getClassById(id).map(entidade -> {
+        return classService.getClassById(id).map(entidade -> {
             classService.deleteClass(entidade.getId());
             return new ResponseEntity<String>("Classe apagada com sucesso!", HttpStatus.OK);
-        
-       }).orElseGet(() -> 
-           new ResponseEntity<String>("Essa classe não existe!", HttpStatus.BAD_REQUEST));
+
+        }).orElseGet(() ->
+                new ResponseEntity<String>("Essa classe não existe!", HttpStatus.BAD_REQUEST));
     }
+
 
     @PutMapping
     public ResponseEntity<String> updateClass(@RequestBody Classes classes){
        return classService.getClassById(classes.getId()).map(entidade -> {
-            classService.saveClass(entidade);
-            return new ResponseEntity<String>("Classe atualizada com sucesso!", HttpStatus.OK);        
+            classService.saveClass(classes);
+            return new ResponseEntity<String>("Classe modificada com sucesso!", HttpStatus.OK);
        }).orElseGet(() -> 
            new ResponseEntity<String>("Essa classe não existe!", HttpStatus.BAD_REQUEST));
     }

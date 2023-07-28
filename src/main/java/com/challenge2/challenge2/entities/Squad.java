@@ -3,6 +3,8 @@ package com.challenge2.challenge2.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @Getter
@@ -13,11 +15,14 @@ import lombok.*;
 public class Squad{
 
     @Id
-    @Column(name = "squad_id")
+    @Column(name = "squadId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long squadId;
 
-    @Column(name = "squad_name")
-    private Long squadName;
+    @Column(name = "squadName")
+    private String squadName;
+
+    @OneToMany(mappedBy = "squad")
+    private List<Student> students;
 
 }

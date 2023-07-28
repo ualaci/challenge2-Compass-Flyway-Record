@@ -36,5 +36,5 @@ public class ClassServiceImpl implements ClassService{
         classRepository.deleteById(id);
     }
 
-   
+
 }
