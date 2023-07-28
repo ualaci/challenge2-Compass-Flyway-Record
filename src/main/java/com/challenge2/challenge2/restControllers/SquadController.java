@@ -1,5 +1,6 @@
 package com.challenge2.challenge2.restControllers;
 
+import com.challenge2.challenge2.dto.SquadDTO;
 import com.challenge2.challenge2.entities.Squad;
 import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.services.impl.SquadServiceImpl;
@@ -44,18 +45,10 @@ public class SquadController {
     }
 
 
-    @PostMapping("/perID")
-    public ResponseEntity<String> createSquadWithStudents(@RequestBody Squad squad) {
-        for (Student student : squad.getStudents()) {
-            if (!studentService.existsById(student.getId())) {
-                Long studentID = student.getId();
-                String message = "O aluno com ID " + studentID + " não foi encontrado.";
-                return ResponseEntity.badRequest().body(message);
-            }
-        }
-        Squad createdSquad = squadService.createSquad(squad);
-
-        return new ResponseEntity(createdSquad, HttpStatus.CREATED);
+    @PostMapping("/byID")
+    public ResponseEntity<Squad> createSquad(@RequestBody SquadDTO squadDTO) {
+        Squad createdSquad = squadService.createSquadByStudentID(squadDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdSquad);
     }
 
 

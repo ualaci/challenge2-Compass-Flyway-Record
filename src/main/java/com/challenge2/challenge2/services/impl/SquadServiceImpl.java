@@ -1,5 +1,6 @@
 package com.challenge2.challenge2.services.impl;
 
+import com.challenge2.challenge2.dto.SquadDTO;
 import com.challenge2.challenge2.entities.Squad;
 import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.repositories.SquadRepository;
@@ -70,14 +71,19 @@ public class SquadServiceImpl implements SquadService{
 
      */
 
-    public Squad createSquad(Squad squad) {
-        List<Student> students = squad.getStudents();
-        for (Student student : students) {
-            Long studentId = student.getId();
+    public Squad createSquadByStudentID(SquadDTO squadDTO) {
+        List<Long> studentIds = squadDTO.getStudents();
+        for (Long studentId : studentIds) {
             if (!studentRepository.existsById(studentId)) {
                 throw new IllegalArgumentException("O aluno com ID " + studentId + " não foi encontrado.");
             }
         }
+
+        Squad squad = new Squad();
+        squad.setSquadName(squadDTO.getSquadName());
+
+        List<Student> students = studentRepository.findAllById(studentIds);
+        squad.setStudents(students);
 
         return squadRepository.save(squad);
     }
