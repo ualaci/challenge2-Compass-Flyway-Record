@@ -22,6 +22,7 @@ public class StudentController {
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
+
     }
 
     @GetMapping("/{id}")
@@ -42,7 +43,16 @@ public class StudentController {
             studentService.deleteStudent(entidade.getId());
             return new ResponseEntity( HttpStatus.NO_CONTENT);
         }).orElseGet(() ->
-                new ResponseEntity("Lançamento não encontrado na base de dados", HttpStatus.BAD_REQUEST));
+                new ResponseEntity("Estudante não encontrado na base de dados", HttpStatus.BAD_REQUEST));
 
+    }
+
+    @PutMapping
+    public ResponseEntity<String> updateStudent(@RequestBody Student student){
+        return studentService.getStudentById(student.getId()).map(entidade -> {
+            studentService.saveStudent(student);
+            return new ResponseEntity<String>("Estudante atualizado com sucesso!", HttpStatus.OK);
+        }).orElseGet(() ->
+                new ResponseEntity<String>("Esse estudante não existe!", HttpStatus.BAD_REQUEST));
     }
 }

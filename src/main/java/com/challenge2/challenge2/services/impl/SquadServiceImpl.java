@@ -5,31 +5,47 @@ import com.challenge2.challenge2.repositories.SquadRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class SquadServiceImpl implements SquadService{
 
 
-    private SquadRepository squadRepository;
-
+    private static SquadRepository squadRepository;
 
     public SquadServiceImpl(SquadRepository squadRepository) {
 
         this.squadRepository = squadRepository;
     }
+
+    @Override
     public List<Squad> getAllSquads() {
-        return squadRepository.findAll();
+
+        try {
+            return squadRepository.findAll();
+        }
+        catch (Exception e){
+            System.out.println("Erro ao encontrar objeto!");
+            return null;
+        }
     }
 
-    public Squad getSquadById(Long id) {
-        return squadRepository.findById(id).orElse(null);
+    @Override
+    public Optional<Squad> getSquadById(Long id) {
+
+        return squadRepository.findById(id);
     }
 
+    @Override
     public Squad saveSquad(Squad squad) {
+
         return squadRepository.save(squad);
     }
 
+    @Override
     public void deleteSquad(Long id) {
+
         squadRepository.deleteById(id);
     }
 

@@ -18,6 +18,6 @@ public class Squad{
     private Long squadId;
 
     @Column(name = "squad_name")
-    private Long squadName;
+    private String squadName;
 
 }

@@ -5,32 +5,37 @@ import com.challenge2.challenge2.repositories.OrganizerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrganizerServiceImpl implements OrganizerService{
 
     private OrganizerRepository organizerRepository;
 
-
     public OrganizerServiceImpl(OrganizerRepository organizerRepository) {
 
         this.organizerRepository = organizerRepository;
     }
 
+    @Override
     public List<Organizer> getAllOrganizers() {
 
         return organizerRepository.findAll();
     }
 
-    public Organizer getOrganizerById(Long id) {
-        return organizerRepository.findById(id).orElse(null);
+    @Override
+    public Optional<Organizer> getOrganizerById(Long id) {
+
+        return organizerRepository.findById(id);
     }
 
+    @Override
     public Organizer saveOrganizer(Organizer organizer) {
 
         return organizerRepository.save(organizer);
     }
 
+    @Override
     public void deleteOrganizer(Long id) {
 
         organizerRepository.deleteById(id);
