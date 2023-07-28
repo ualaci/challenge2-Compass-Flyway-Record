@@ -7,9 +7,10 @@ import com.challenge2.challenge2.repositories.SquadRepository;
 import com.challenge2.challenge2.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SquadServiceImpl implements SquadService{
@@ -71,20 +72,38 @@ public class SquadServiceImpl implements SquadService{
 
      */
 
-    public Squad createSquadByStudentID(SquadDTO squadDTO) {
+    public Squad createSquadWithStudents(SquadDTO squadDTO) {
+
         List<Long> studentIds = squadDTO.getStudents();
+        Squad squad = new Squad();
+        squad.setSquadName(squadDTO.getSquadName());
+
         for (Long studentId : studentIds) {
             if (!studentRepository.existsById(studentId)) {
                 throw new IllegalArgumentException("O aluno com ID " + studentId + " não foi encontrado.");
             }
+            Optional<Student> student = studentRepository.findById(studentId);
+            squad.getStudents().add(student.get());
+            System.out.println(student.get().toString());
         }
 
-        Squad squad = new Squad();
-        squad.setSquadName(squadDTO.getSquadName());
+        /*
+        for (Long studentId : studentIds){
 
-        List<Student> students = studentRepository.findAllById(studentIds);
+
+            //List<Student> students = studentIds.stream().map(Student::new).collect(Collectors.toList());
+
+        }
+
+        int i=0;
+        for (Long studentId : studentIds) {
+            Optional<Student> student = studentRepository.findById(studentId);
+            modelMapper.map(student, students.get(i));
+            System.out.println(students.get(i).toString());
+        }
+
         squad.setStudents(students);
-
+*/
         return squadRepository.save(squad);
     }
 

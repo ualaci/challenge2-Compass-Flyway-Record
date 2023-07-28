@@ -2,10 +2,8 @@ package com.challenge2.challenge2.restControllers;
 
 import com.challenge2.challenge2.dto.SquadDTO;
 import com.challenge2.challenge2.entities.Squad;
-import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.services.impl.SquadServiceImpl;
 import com.challenge2.challenge2.services.impl.StudentServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +17,6 @@ public class SquadController {
 
     private final SquadServiceImpl squadService;
     private final StudentServiceImpl studentService;
-
-    @Autowired
     public SquadController (SquadServiceImpl squadService, StudentServiceImpl studentService){
         this.squadService = squadService;
         this.studentService = studentService;
@@ -45,9 +41,9 @@ public class SquadController {
     }
 
 
-    @PostMapping("/byID")
+    @PostMapping("/byId")
     public ResponseEntity<Squad> createSquad(@RequestBody SquadDTO squadDTO) {
-        Squad createdSquad = squadService.createSquadByStudentID(squadDTO);
+        Squad createdSquad = squadService.createSquadWithStudents(squadDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdSquad);
     }
 

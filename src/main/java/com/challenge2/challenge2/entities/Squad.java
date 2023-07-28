@@ -3,6 +3,7 @@ package com.challenge2.challenge2.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,6 @@ public class Squad{
     private String squadName;
 
     @OneToMany(mappedBy = "squad")
-    private List<Student> students;
+    private List<Student> students = new ArrayList<>();
 
 }
