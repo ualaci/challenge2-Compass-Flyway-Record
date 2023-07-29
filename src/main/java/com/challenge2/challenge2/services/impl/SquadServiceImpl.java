@@ -1,7 +1,9 @@
 package com.challenge2.challenge2.services.impl;
 
+import com.challenge2.challenge2.dto.SquadDTO;
 import com.challenge2.challenge2.entities.Squad;
 import com.challenge2.challenge2.entities.Student;
+import com.challenge2.challenge2.exceptions.BadRequestException;
 import com.challenge2.challenge2.repositories.SquadRepository;
 import com.challenge2.challenge2.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +26,14 @@ public class SquadServiceImpl implements SquadService{
     }
 
     @Override
-    public List<Squad> getAllSquads() {
-
-        try {
-            return squadRepository.findAll();
-        }
-        catch (Exception e){
-            System.out.println("Erro ao encontrar objeto!");
-            return null;
-        }
+    public List<Squad> getAllSquads() throws BadRequestException {
+        return squadRepository.findAll();
     }
 
     @Override
     public Optional<Squad> getSquadById(Long id) {
-
-        return squadRepository.findById(id);
+        Optional<Squad> squadOptional = squadRepository.findById(id);
+        return squadOptional;
     }
 
     @Override
@@ -47,36 +42,18 @@ public class SquadServiceImpl implements SquadService{
         return squadRepository.save(squad);
     }
 
-    /*
-    public Squad createSquad(Squad squad) {
-        List<Student> students = squad.getStudents();
-        for (Student student : students) {
-            Optional<Student> optionalStudent = studentRepository.findById(student.getId());
-            if (optionalStudent.isEmpty()) {
-                throw new IllegalArgumentException("O aluno com ID " + student.getId() + " não foi encontrado.");
-            }
-        }
+    public Squad createSquadWithStudents(SquadDTO squadDTO) {
 
-        Squad newSquad = new Squad();
-        newSquad.setSquadName(squad.getSquadName());
+        List<Long> studentIds = squadDTO.getStudents();
+        Squad squad = new Squad();
+        squad.setSquadName(squadDTO.getSquadName());
 
-        // Associar os estudantes ao novo Squad por meio de seus IDs
-        List<Student> squadStudents = studentRepository.findAllById(students.stream().map(Student::getId).toList());
-        newSquad.setStudents(students);
-
-        // Salvar o novo Squad no banco de dados
-        return squadRepository.save(newSquad);
-    }
-
-     */
-
-    public Squad createSquad(Squad squad) {
-        List<Student> students = squad.getStudents();
-        for (Student student : students) {
-            Long studentId = student.getId();
+        for (Long studentId : studentIds) {
             if (!studentRepository.existsById(studentId)) {
                 throw new IllegalArgumentException("O aluno com ID " + studentId + " não foi encontrado.");
             }
+            Optional<Student> student = studentRepository.findById(studentId);
+            squad.getStudents().add(student.get());
         }
 
         return squadRepository.save(squad);

@@ -44,4 +44,7 @@ public class Student extends User{
     @JoinColumn(name = "squadId")
     private Squad squad;
 
+    public Student(Long studentID) {
+        this.setId(studentID);
+    }
 }
