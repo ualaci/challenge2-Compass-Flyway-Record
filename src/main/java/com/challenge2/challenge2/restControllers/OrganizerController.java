@@ -1,5 +1,6 @@
 package com.challenge2.challenge2.restControllers;
 
+import com.challenge2.challenge2.entities.ErrorResponse;
 import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.entities.Squad;
@@ -9,6 +10,8 @@ import com.challenge2.challenge2.services.impl.SquadServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,39 +26,60 @@ public class OrganizerController {
     }
 
     @GetMapping
-    public List<Organizer> getAllOrganizers() {
-        return organizerService.getAllOrganizers();
-
+    public ResponseEntity<?> getAllOrganizers() {
+        ErrorResponse errorResponse = new ErrorResponse("Nenhum organizador encontrado",
+        new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        if(organizerService.getAllOrganizers().isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(organizerService.getAllOrganizers());
+        }
     }
 
     @GetMapping("/{id}")
-    public Optional<Organizer> getOrganizerById(@PathVariable Long id) {
-
-        return organizerService.getOrganizerById(id);
+    public ResponseEntity<?> getOrganizerById(@PathVariable Long id) {
+        ErrorResponse errorResponse = new ErrorResponse("Organizador não encontrado",
+                new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        Optional <Organizer> organizer = organizerService.getOrganizerById(id);
+        if (organizer.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(organizer);
+        }
     }
 
     @PostMapping
-    public ResponseEntity addOrganizer(@RequestBody Organizer organizer) {
+    public ResponseEntity <?> addOrganizer(@RequestBody Organizer organizer) {
         Organizer savedOrganizer = organizerService.saveOrganizer(organizer);
-        return new ResponseEntity(savedOrganizer, HttpStatus.CREATED);
+        ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar o organizador",
+                new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+        if (savedOrganizer == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganizer);
     }
-
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteOrganizer(@PathVariable Long id){
+    public ResponseEntity <?> deleteOrganizer(@PathVariable Long id){
+        ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar o organizador pois ele não existe",
+                new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
         return organizerService.getOrganizerById(id).map(entidade ->{
             organizerService.deleteOrganizer(entidade.getId());
-            return new ResponseEntity( HttpStatus.NO_CONTENT);
-        }).orElseGet(() ->
-                new ResponseEntity("Organizador não encontrado na base de dados", HttpStatus.BAD_REQUEST));
-
+            return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
     }
-    @PutMapping
-    public ResponseEntity<String> updateSquad(@RequestBody Organizer organizer){
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Organizer organizer, @PathVariable Long id){
+        ErrorResponse errorResponseSuccess = new ErrorResponse("Organizador atualizado com sucesso!",
+                new Timestamp(System.currentTimeMillis()), HttpStatus.OK.name());
+        ErrorResponse errorResponseFail = new ErrorResponse("Não foi possível atualizar o organizador",
+                new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+
         return organizerService.getOrganizerById(organizer.getId()).map(entidade -> {
             organizerService.saveOrganizer(organizer);
-            return new ResponseEntity<String>("Organizador atualizada com sucesso!", HttpStatus.OK);
+            return new ResponseEntity<>(errorResponseSuccess, HttpStatus.OK);
         }).orElseGet(() ->
-                new ResponseEntity<String>("Esse organizador não existe!", HttpStatus.BAD_REQUEST));
+                new ResponseEntity<>(errorResponseFail, HttpStatus.BAD_REQUEST));
     }
 }
