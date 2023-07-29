@@ -48,7 +48,7 @@ public class StudentController {
     }
 
    @PostMapping
-     public ResponseEntity<?> addStudent(@RequestBody @Valid Student student) {
+     public ResponseEntity<?> addStudent(@Valid @RequestBody Student student) {
         Student createdStudent = studentService.saveStudent(student);
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar o estudante",
                 new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
