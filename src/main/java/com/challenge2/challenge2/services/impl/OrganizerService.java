@@ -1,6 +1,7 @@
 package com.challenge2.challenge2.services.impl;
 
 import com.challenge2.challenge2.entities.Organizer;
+import com.challenge2.challenge2.exceptions.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
