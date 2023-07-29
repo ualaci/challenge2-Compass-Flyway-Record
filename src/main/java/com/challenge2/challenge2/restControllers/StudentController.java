@@ -3,6 +3,7 @@ package com.challenge2.challenge2.restControllers;
  // import com.challenge2.challenge2.dto.StudentDTO;
 import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.services.impl.StudentServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class StudentController {
     }
 
    @PostMapping
-     public ResponseEntity addStudent(@RequestBody Student student) {
+     public ResponseEntity addStudent(@RequestBody @Valid Student student) {
             Student savedStudent = studentService.saveStudent(student);
             return new ResponseEntity(savedStudent, HttpStatus.CREATED);
     }

@@ -1,6 +1,7 @@
 package com.challenge2.challenge2.services.impl;
 
 import com.challenge2.challenge2.entities.Organizer;
+import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,30 +13,26 @@ public class OrganizerServiceImpl implements OrganizerService{
 
     private OrganizerRepository organizerRepository;
 
+
     public OrganizerServiceImpl(OrganizerRepository organizerRepository) {
 
         this.organizerRepository = organizerRepository;
     }
 
-    @Override
     public List<Organizer> getAllOrganizers() {
 
         return organizerRepository.findAll();
     }
 
-    @Override
     public Optional<Organizer> getOrganizerById(Long id) {
-
         return organizerRepository.findById(id);
     }
 
-    @Override
     public Organizer saveOrganizer(Organizer organizer) {
 
         return organizerRepository.save(organizer);
     }
 
-    @Override
     public void deleteOrganizer(Long id) {
 
         organizerRepository.deleteById(id);

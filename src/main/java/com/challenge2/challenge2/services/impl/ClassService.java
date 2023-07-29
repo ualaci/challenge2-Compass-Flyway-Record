@@ -7,10 +7,10 @@ import com.challenge2.challenge2.entities.Classes;
 
 public interface ClassService {
 
-    List<Classes> getAllClasses();
+    List<Classes> getAllClasses(); 
 
     Optional<Classes> getClassById(Long id);
-
+    
     Classes saveClass(Classes classes);
 
     void deleteClass(Long id);

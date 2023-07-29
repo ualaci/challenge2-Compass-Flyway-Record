@@ -1,5 +1,6 @@
 package com.challenge2.challenge2.restControllers;
 
+import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.entities.Squad;
 import com.challenge2.challenge2.services.impl.OrganizerService;
@@ -8,7 +9,6 @@ import com.challenge2.challenge2.services.impl.SquadServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequestMapping("/api/organizer")
 public class OrganizerController {
 
-    private OrganizerServiceImpl organizerService;
+    private final OrganizerServiceImpl organizerService;
 
     public OrganizerController (OrganizerServiceImpl organizerService){
         this.organizerService = organizerService;
@@ -39,6 +39,7 @@ public class OrganizerController {
         Organizer savedOrganizer = organizerService.saveOrganizer(organizer);
         return new ResponseEntity(savedOrganizer, HttpStatus.CREATED);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteOrganizer(@PathVariable Long id){
