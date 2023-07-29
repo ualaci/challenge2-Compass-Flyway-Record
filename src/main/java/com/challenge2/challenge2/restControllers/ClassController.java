@@ -1,6 +1,11 @@
 package com.challenge2.challenge2.restControllers;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
+
+import com.challenge2.challenge2.entities.ErrorResponse;
+import com.challenge2.challenge2.entities.Organizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,43 +35,58 @@ public class ClassController {
     }
 
     @GetMapping
-    public List<Classes> getAllClasses(){
-        return classService.getAllClasses();
+    public ResponseEntity<?> getAllClasses(){
+        ErrorResponse errorResponse = new ErrorResponse("Nenhuma turma encontrada"
+                , new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        if(classService.getAllClasses().isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(classService.getAllClasses());
     }
 
     @GetMapping("/{id}")
-    public Classes getClassById(@PathVariable Long id){
-        return classService.getClassById(id)
-                .orElseThrow( () -> 
-                    new NotFoundException("Class not found!"));
+    public ResponseEntity<?> getClassById(@PathVariable Long id){
+        ErrorResponse errorResponse = new ErrorResponse("Turma não encontrada"
+                , new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        Optional<Classes> classes = classService.getClassById(id);
+        if(classes.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(classes);
     }
     
     @PostMapping
-    public ResponseEntity<Classes> addClass(@RequestBody Classes classes){    
+    public ResponseEntity<?> addClass(@RequestBody Classes classes){
         Classes savedClass = classService.saveClass(classes);
-        return new ResponseEntity<Classes>(savedClass, HttpStatus.CREATED);    
+        ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar a turma"
+                , new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+        if(savedClass == null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedClass);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteClass(@PathVariable Long id) {
-        return classService.getClassById(id).map(entidade -> {
-            classService.deleteClass(entidade.getId());
-            return new ResponseEntity<String>("Class removed successfully.", HttpStatus.OK);
-        }).orElseThrow(() -> new NotFoundException("Class not found!"));      
+    public ResponseEntity<?> deleteClass(@PathVariable Long id) {
+        ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar a turma pois ela não existe"
+                , new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        return classService.getClassById(id)
+                .map(entidade -> {
+                    classService.deleteClass(entidade.getId());
+                    return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+                })
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
     }
 
     @PutMapping
-    public ResponseEntity<String> updateClass(@RequestBody Classes classes) {
-        try{
-            return classService.getClassById(classes.getId())
-                .map(entidade -> {
-                    classService.saveClass(entidade);
-                    return new ResponseEntity<String>("Class updated successfully.", HttpStatus.OK);
-                })
-                .orElseThrow(() -> new NotFoundException("Class not found!"));      
-        }
-        catch(Exception e){
-            throw new BadRequestException("Something went wrong!");
-        }       
+    public ResponseEntity<?> updateClass(@RequestBody Classes classes) {
+        ErrorResponse errorResponseSuccess = new ErrorResponse("Turma atualizada com sucesso"
+                , new Timestamp(System.currentTimeMillis()), HttpStatus.OK.name());
+        ErrorResponse errorResponseError = new ErrorResponse("Não foi possível atualizar a turma"
+                , new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+        return classService.getClassById(classes.getId()).map(entidade -> {
+            classService.saveClass(classes);
+            return ResponseEntity.status(HttpStatus.OK).body(errorResponseSuccess);
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponseError));
     }
 }

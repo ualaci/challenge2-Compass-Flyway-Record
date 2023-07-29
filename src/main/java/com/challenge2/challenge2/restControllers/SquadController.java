@@ -19,10 +19,8 @@ import java.util.Optional;
 public class SquadController {
 
     private final SquadServiceImpl squadService;
-    private final StudentServiceImpl studentService;
     public SquadController (SquadServiceImpl squadService, StudentServiceImpl studentService){
         this.squadService = squadService;
-        this.studentService = studentService;
     }
 
     @GetMapping
@@ -70,13 +68,13 @@ public class SquadController {
 
         return squadService.getSquadById(id).map(entidade ->{
             squadService.deleteSquad(entidade.getSquadId());
-            return new ResponseEntity( HttpStatus.NO_CONTENT);
-        }).orElseGet(() ->
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
+            return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
 
     }
-    @PutMapping
-    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Squad squad){
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Squad squad, @PathVariable Long id){
         ErrorResponse errorResponseSucces = new ErrorResponse("Squad atualizada com sucesso!"
                 , new Timestamp(System.currentTimeMillis()),HttpStatus.OK.name());
         ErrorResponse errorResponseFail = new ErrorResponse("Squad não existe, portanto não pode ser alterada"
@@ -85,8 +83,6 @@ public class SquadController {
         return squadService.getSquadById(squad.getSquadId()).map(entidade -> {
             squadService.saveSquad(squad);
             return new ResponseEntity<>(errorResponseSucces, HttpStatus.OK);
-        }).orElseGet(() ->
-                new ResponseEntity<>(errorResponseFail, HttpStatus.BAD_REQUEST));
+        }).orElseGet(() -> new ResponseEntity<>(errorResponseFail, HttpStatus.BAD_REQUEST));
     }
-
 }
