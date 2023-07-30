@@ -2,6 +2,10 @@ package com.challenge2.challenge2.enums;
 
 public enum OrganizerEnums {
     ScrumMaster,
-    Cordinator,
-    Instructor
+    Coordinator,
+    Instructor;
+
+    public static OrganizerEnums getDefault() {
+        return ScrumMaster;
+    }
 }

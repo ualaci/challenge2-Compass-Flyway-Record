@@ -22,7 +22,7 @@ public class OrganizerTest {
 
     @Test
     public void testRole() {
-        OrganizerEnums expectedRole = OrganizerEnums.Cordinator;
+        OrganizerEnums expectedRole = OrganizerEnums.Coordinator;
         Organizer organizer = new Organizer();
         organizer.setRole(expectedRole);
 

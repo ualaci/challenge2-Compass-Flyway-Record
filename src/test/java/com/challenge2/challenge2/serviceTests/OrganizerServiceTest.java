@@ -1,4 +1,4 @@
-package com.challenge2.challenge2.servicetests;
+package com.challenge2.challenge2.serviceTests;
 
 
 import com.challenge2.challenge2.entities.Organizer;

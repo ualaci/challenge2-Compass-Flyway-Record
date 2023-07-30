@@ -17,5 +17,5 @@ public class Organizer extends User{
 
     @Column(name = "role")
     @Enumerated(value= EnumType.STRING)
-    private OrganizerEnums role;
+    private OrganizerEnums role = OrganizerEnums.getDefault();
 }
