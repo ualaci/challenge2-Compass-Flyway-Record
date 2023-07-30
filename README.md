@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://carreiras.pucminas.br/med/2022/09/logo_04.png" height="200" width="200">
+</p>
+
 # Compass Scholarship Program API
 
 The Compass Scholarship Program API is a RESTful API developed using the Spring Boot framework in Java. The API is capable of handling basic operations such as GET, POST, PUT, and DELETE. It provides endpoints to manage the registration of organizers, students, classes, and squads for the Compass Scholarship Program.
