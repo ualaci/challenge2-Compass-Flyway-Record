@@ -22,7 +22,11 @@ The Compass Scholarship Program API is a RESTful API developed using the Spring 
 
 3. Build the project using Maven:
 
+`mvn clean install`  
+
 4. Run the application:
+
+`mvn spring-boot:run`
 
 The API will start running on `http://localhost:8080`.
 
