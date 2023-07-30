@@ -19,8 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class StudentServiceTest {
@@ -81,6 +80,8 @@ public class StudentServiceTest {
     }
 
 
+
+
     @Test
     public void testUpdateStudent() {
         Long studentId = 1L;
@@ -108,6 +109,27 @@ public class StudentServiceTest {
         Student updatedStudent = studentServiceImpl.saveStudent(student);
         assertNotNull(updatedStudent);
         assertEquals(updatedName, updatedStudent.getName());
+    }
+
+    @Test
+    public void testDeleteStudent() {
+        Long studentId = 1L;
+
+        Student mockStudent = new Student();
+        mockStudent.setId(studentId);
+        mockStudent.setName("John Doe");
+
+        when(studentRepository.findById(studentId)).thenReturn(Optional.of(mockStudent));
+
+        Optional<Student> optionalStudent = studentServiceImpl.getStudentById(studentId);
+        assertTrue(optionalStudent.isPresent());
+
+        studentServiceImpl.deleteStudent(studentId);
+
+        verify(studentRepository, times(1)).deleteById(studentId);
+
+        Optional<Student> deletedStudentOptional = studentServiceImpl.getStudentById(studentId);
+        assertTrue(deletedStudentOptional.isPresent());
     }
 
 }
