@@ -3,24 +3,20 @@ package com.challenge2.challenge2.servicetests;
 
 import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.repositories.StudentRepository;
-import com.challenge2.challenge2.services.impl.StudentService;
 import com.challenge2.challenge2.services.impl.StudentServiceImpl;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class StudentServiceTest {
@@ -81,6 +77,8 @@ public class StudentServiceTest {
     }
 
 
+
+
     @Test
     public void testUpdateStudent() {
         Long studentId = 1L;
@@ -108,6 +106,27 @@ public class StudentServiceTest {
         Student updatedStudent = studentServiceImpl.saveStudent(student);
         assertNotNull(updatedStudent);
         assertEquals(updatedName, updatedStudent.getName());
+    }
+
+    @Test
+    public void testDeleteStudent() {
+        Long studentId = 1L;
+
+        Student mockStudent = new Student();
+        mockStudent.setId(studentId);
+        mockStudent.setName("John Doe");
+
+        when(studentRepository.findById(studentId)).thenReturn(Optional.of(mockStudent));
+
+        Optional<Student> optionalStudent = studentServiceImpl.getStudentById(studentId);
+        assertTrue(optionalStudent.isPresent());
+
+        studentServiceImpl.deleteStudent(studentId);
+
+        verify(studentRepository, times(1)).deleteById(studentId);
+
+        Optional<Student> deletedStudentOptional = studentServiceImpl.getStudentById(studentId);
+        assertTrue(deletedStudentOptional.isPresent());
     }
 
 }
