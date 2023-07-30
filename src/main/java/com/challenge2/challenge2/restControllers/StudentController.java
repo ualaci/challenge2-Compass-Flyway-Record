@@ -1,15 +1,12 @@
 package com.challenge2.challenge2.restControllers;
 
  // import com.challenge2.challenge2.dto.StudentDTO;
-import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.services.impl.StudentServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,50 +21,39 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllStudents() {
-        ErrorResponse errorResponse = new ErrorResponse("Nenhum estudante encontrado",
-                new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
-        List<Student> students = studentService.getAllStudents();
-        if(students.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(students);
-        }
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getStudentById(@PathVariable Long id) {
-        Optional <Student> student = studentService.getStudentById(id);
-        ErrorResponse errorResponse = new ErrorResponse("Estudante não encontrado",
-                new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
-        if(student.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(student);
-        }
+    public Optional<Student> getStudentById(@PathVariable Long id) {
+
+        return studentService.getStudentById(id);
     }
 
    @PostMapping
-     public ResponseEntity<?> addStudent(@Valid @RequestBody Student student) {
-        Student createdStudent = studentService.saveStudent(student);
-        ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar o estudante",
-                new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
-        if(createdStudent == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
-        }
+     public ResponseEntity addStudent(@RequestBody @Valid Student student) {
+            Student savedStudent = studentService.saveStudent(student);
+            return new ResponseEntity(savedStudent, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-        public ResponseEntity<?> deleteStudent(@PathVariable Long id){
-        ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar o estudante",
-                new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
-        return studentService.getStudentById(id)
-                .map(student -> {
-                    studentService.deleteStudent(id);
-                    return new ResponseEntity<>( HttpStatus.NO_CONTENT);
-                }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse));
+        public ResponseEntity deleteStudent(@PathVariable Long id){
+        return studentService.getStudentById(id).map(entidade ->{
+            studentService.deleteStudent(entidade.getId());
+            return new ResponseEntity( HttpStatus.NO_CONTENT);
+        }).orElseGet(() ->
+                new ResponseEntity("Estudante não encontrado na base de dados", HttpStatus.BAD_REQUEST));
 
+    }
+
+    @PutMapping
+    public ResponseEntity<String> updateStudent(@RequestBody Student student){
+        return studentService.getStudentById(student.getId()).map(entidade -> {
+            studentService.saveStudent(student);
+            return new ResponseEntity<String>("Estudante atualizado com sucesso!", HttpStatus.OK);
+        }).orElseGet(() ->
+                new ResponseEntity<String>("Esse estudante não existe!", HttpStatus.BAD_REQUEST));
     }
 }

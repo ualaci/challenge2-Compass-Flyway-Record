@@ -1,6 +1,7 @@
 package com.challenge2.challenge2.restControllers;
 
 import com.challenge2.challenge2.entities.ErrorResponse;
+import com.challenge2.challenge2.exceptions.BadRequestException;
 import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.entities.Squad;
@@ -48,6 +49,7 @@ public class OrganizerController {
         }
     }
 
+
     @PostMapping
     public ResponseEntity <?> addOrganizer(@RequestBody Organizer organizer) {
         Organizer savedOrganizer = organizerService.saveOrganizer(organizer);
@@ -59,7 +61,10 @@ public class OrganizerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganizer);
     }
 
-    @DeleteMapping("/{id}")
+
+
+
+@DeleteMapping("/{id}")
     public ResponseEntity <?> deleteOrganizer(@PathVariable Long id){
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar o organizador pois ele não existe",
                 new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());

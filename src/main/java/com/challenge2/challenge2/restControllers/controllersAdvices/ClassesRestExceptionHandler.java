@@ -1,8 +1,11 @@
 package com.challenge2.challenge2.restControllers.controllersAdvices;
 
 import com.challenge2.challenge2.exceptions.BadRequestException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -11,6 +14,7 @@ import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.exceptions.NotFoundException;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class ClassesRestExceptionHandler {
@@ -33,5 +37,17 @@ public class ClassesRestExceptionHandler {
         ErrorResponse error = new ErrorResponse(ex.getMessage(), new Timestamp(System.currentTimeMillis()),HttpStatus.BAD_REQUEST.name());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+        ErrorResponse errorDetails = new ErrorResponse(
+                "Total Errors:" + ex.getErrorCount() + " First Error:" + ex.getFieldError().getDefaultMessage(), new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+
+
+
+        return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
     }
 }
