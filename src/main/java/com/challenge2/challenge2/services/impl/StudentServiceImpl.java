@@ -13,20 +13,12 @@ public class StudentServiceImpl implements StudentService{
     private static StudentRepository studentRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository) {
-
-        this.studentRepository = studentRepository;
+        StudentServiceImpl.studentRepository = studentRepository;
     }
 
     @Override
     public List<Student> getAllStudents() {
-
-        try {
             return studentRepository.findAll();
-        }
-        catch (Exception e){
-            System.out.println("Erro ao encontrar objeto!");
-            return null;
-        }
     }
 
     @Override

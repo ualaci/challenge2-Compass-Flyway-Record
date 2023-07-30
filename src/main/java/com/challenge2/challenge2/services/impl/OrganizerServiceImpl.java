@@ -1,9 +1,12 @@
 package com.challenge2.challenge2.services.impl;
 
 import com.challenge2.challenge2.entities.Organizer;
+import com.challenge2.challenge2.enums.OrganizerEnums;
+import com.challenge2.challenge2.exceptions.BadRequestException;
 import com.challenge2.challenge2.exceptions.NotFoundException;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +34,14 @@ public class OrganizerServiceImpl implements OrganizerService{
 
     @Override
     public Organizer saveOrganizer(Organizer organizer) {
+        if (!isValidRole(organizer.getRole())) {
+            throw new NotFoundException("O campo 'role' é inválido! O 'role' deve ser: ScrumMaster, Instructor, Cordinator");
+        }
         return organizerRepository.save(organizer);
+    }
+
+    private boolean isValidRole(OrganizerEnums role) {
+        return role == OrganizerEnums.ScrumMaster || role == OrganizerEnums.Instructor || role == OrganizerEnums.Cordinator;
     }
 
     @Override

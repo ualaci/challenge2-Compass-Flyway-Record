@@ -14,8 +14,8 @@ import org.hibernate.annotations.BatchSize;
 @Setter
 public class Organizer extends User{
 
+
     @Column(name = "role")
     @Enumerated(value= EnumType.STRING)
-
     private OrganizerEnums role;
 }
