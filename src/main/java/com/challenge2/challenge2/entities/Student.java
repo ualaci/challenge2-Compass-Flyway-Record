@@ -21,9 +21,6 @@ public class Student extends User{
     @Column(name = "college")
     private String college;
 
-//    @Column(name= "semester")
-//    private Integer semester;
-
     @Min(value = 0, message = "A nota deve ser no minimo 0")
     @Max(value = 10, message = "A nota deve ser no maximo 10")
     @Column(name = "grade")
