@@ -1,11 +1,8 @@
 package com.challenge2.challenge2.servicetests;
 
-import com.challenge2.challenge2.entities.*;
+
 import com.challenge2.challenge2.entities.Organizer;
-import com.challenge2.challenge2.entities.Organizer;
-import com.challenge2.challenge2.repositories.ClassRepository;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
-import com.challenge2.challenge2.services.impl.ClassServiceImpl;
 import com.challenge2.challenge2.services.impl.OrganizerServiceImpl;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
