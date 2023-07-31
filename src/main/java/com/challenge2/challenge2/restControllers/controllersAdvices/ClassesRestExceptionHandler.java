@@ -33,7 +33,7 @@ public class ClassesRestExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> globlalExceptionHandler(Exception ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse("Something went wrong", new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        ErrorResponse error = new ErrorResponse("Something went wrong", new Timestamp(System.currentTimeMillis()),HttpStatus.INTERNAL_SERVER_ERROR.name());
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -45,21 +45,28 @@ public class ClassesRestExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         ErrorResponse errorDetails = new ErrorResponse(
                 "Total Errors:" + ex.getErrorCount() + " First Error:" + ex.getFieldError().getDefaultMessage(), new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
 
-
         return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(InvalidRoleException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidRoleException(InvalidRoleException e) {
-        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(),
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgumentException(
+            IllegalArgumentException ex, WebRequest request) {
+
+        ErrorResponse errorDetails = new ErrorResponse(
+                "Illegal Argument Exception: " + ex.getMessage(),
                 new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-        }
+    
+}
+
+   

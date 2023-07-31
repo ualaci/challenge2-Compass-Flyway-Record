@@ -1,14 +1,10 @@
 package com.challenge2.challenge2.restControllers;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Optional;
-
 import com.challenge2.challenge2.entities.ErrorResponse;
-import com.challenge2.challenge2.entities.Organizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.challenge2.challenge2.entities.Classes;
-import com.challenge2.challenge2.exceptions.BadRequestException;
-import com.challenge2.challenge2.exceptions.InternalServerErrorException;
-import com.challenge2.challenge2.exceptions.NotFoundException;
 import com.challenge2.challenge2.services.impl.ClassServiceImpl;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/classes")
