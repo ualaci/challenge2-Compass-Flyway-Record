@@ -1,5 +1,6 @@
 package com.challenge2.challenge2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -13,9 +14,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@Getter
-@Setter
 public class Student extends User{
 
     @Column(name = "college")
@@ -37,8 +35,9 @@ public class Student extends User{
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime endDate;
 
-    @ManyToOne
-    @JoinColumn(name = "squadId")
+    @JsonIgnore
+    @ManyToOne //(cascade = CascadeType.ALL)
+    @JoinColumn(name = "squad_id")
     private Squad squad;
 
     public Student(Long studentID) {
