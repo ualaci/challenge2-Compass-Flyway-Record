@@ -22,7 +22,7 @@ The Compass Scholarship Program API is a RESTful API developed using the Spring 
 
 3. Build the project using Maven:
 
-`mvn clean install`
+`mvn clean install`  
 
 4. Run the application:
 
@@ -76,6 +76,6 @@ The role of Organizer must be "ScrumMaster", "Coordinator" or "Instructor".
 
 The Compass Scholarship Program API provides a flexible and efficient way to manage the registration of organizers, students, classes, and squads. It is built on the powerful Spring Boot framework and can be easily integrated with MySQL.
 
-Feel free to explore the API endpoints and start using it for your Compass Scholarship Program management needs!
+Feel free to explore the API endpoints and start using it for your Compass Scholarship Program management needs! 
 
 Happy coding!
