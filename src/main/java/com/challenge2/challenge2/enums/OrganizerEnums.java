@@ -4,8 +4,4 @@ public enum OrganizerEnums {
     ScrumMaster,
     Coordinator,
     Instructor;
-
-    public static OrganizerEnums getDefault() {
-        return ScrumMaster;
-    }
 }

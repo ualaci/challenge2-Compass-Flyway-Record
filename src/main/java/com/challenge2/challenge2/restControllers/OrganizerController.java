@@ -2,6 +2,7 @@ package com.challenge2.challenge2.restControllers;
 
 import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.exceptions.BadRequestException;
+import com.challenge2.challenge2.exceptions.InvalidRoleException;
 import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.entities.Squad;
@@ -61,6 +62,15 @@ public class OrganizerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganizer);
     }
 
+    @RestControllerAdvice
+    public class GlobalExceptionHandler {
+
+        @ExceptionHandler(InvalidRoleException.class)
+        public ResponseEntity<?> handleInvalidRoleException(InvalidRoleException ex) {
+            ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
 
 
 
