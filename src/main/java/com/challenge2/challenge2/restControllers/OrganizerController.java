@@ -62,15 +62,6 @@ public class OrganizerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganizer);
     }
 
-    @RestControllerAdvice
-    public class GlobalExceptionHandler {
-
-        @ExceptionHandler(InvalidRoleException.class)
-        public ResponseEntity<?> handleInvalidRoleException(InvalidRoleException ex) {
-            ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-        }
-    }
 
 
 
