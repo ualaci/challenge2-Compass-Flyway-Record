@@ -8,8 +8,6 @@ import lombok.*;
 
 @Entity
 @Data
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +16,7 @@ public class Classes {
     @Id
     @Column(name = "class_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @NotEmpty(message = "Learning path não pode ser vazio.")
     @Column(name = "learning_path")
