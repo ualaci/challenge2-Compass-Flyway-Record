@@ -1,20 +1,14 @@
 package com.challenge2.challenge2.restControllers;
 
 import com.challenge2.challenge2.entities.ErrorResponse;
-import com.challenge2.challenge2.exceptions.BadRequestException;
-import com.challenge2.challenge2.exceptions.InvalidRoleException;
 import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
-import com.challenge2.challenge2.entities.Squad;
-import com.challenge2.challenge2.services.impl.OrganizerService;
 import com.challenge2.challenge2.services.impl.OrganizerServiceImpl;
-import com.challenge2.challenge2.services.impl.SquadServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
