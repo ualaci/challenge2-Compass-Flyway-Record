@@ -4,16 +4,12 @@ import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.exceptions.BadRequestException;
 import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
-import com.challenge2.challenge2.entities.Squad;
-import com.challenge2.challenge2.services.impl.OrganizerService;
 import com.challenge2.challenge2.services.impl.OrganizerServiceImpl;
-import com.challenge2.challenge2.services.impl.SquadServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -74,8 +70,8 @@ public class OrganizerController {
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Organizer organizer, @PathVariable Long id){
+    @PutMapping
+    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Organizer organizer){
         ErrorResponse errorResponseSuccess = new ErrorResponse("Organizador atualizado com sucesso!",
                 new Timestamp(System.currentTimeMillis()), HttpStatus.OK.name());
         ErrorResponse errorResponseFail = new ErrorResponse("Não foi possível atualizar o organizador",

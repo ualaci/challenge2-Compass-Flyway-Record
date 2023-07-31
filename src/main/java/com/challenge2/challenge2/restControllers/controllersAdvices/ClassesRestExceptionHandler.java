@@ -1,14 +1,12 @@
 package com.challenge2.challenge2.restControllers.controllersAdvices;
 
 import com.challenge2.challenge2.exceptions.BadRequestException;
-import org.modelmapper.ValidationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
@@ -16,9 +14,6 @@ import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.exceptions.NotFoundException;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ClassesRestExceptionHandler {

@@ -65,13 +65,14 @@ public class ClassServiceTest {
         assertEquals(classId, classes.getId());
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testUpdateClass() {
         Long classId = 1L;
 
         Classes mockClass = new Classes();
         mockClass.setId(classId);
         mockClass.setLearningPath("AWS Spring");
+        mockClass.setSprint(2);
 
 
         when(classRepository.findById(classId)).thenReturn(Optional.of(mockClass));
