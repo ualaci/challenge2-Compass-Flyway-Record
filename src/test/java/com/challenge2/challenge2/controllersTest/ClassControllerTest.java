@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,19 +49,55 @@ public class ClassControllerTest {
     private ClassController classController;
     private Classes classes;
 
-    @BeforeEach
-    public void init() {
-        classes = Classes.builder().learningPath("Java").sprint(2).build();
-        List<Long> estudantesSquadDTO = new ArrayList<>() {{
-            add(1L);
-            add(2L);
-            add(3L);
-        }};
-        SquadDTO squadDto = SquadDTO.builder().squadName("squad name").students(estudantesSquadDTO).build();
-        //review = Review.builder().title("title").content("content").stars(5).build();
-        //reviewDto = ReviewDto.builder().title("review title").content("test content").stars(5).build();
+
+    @Test
+    public void testUpdateClassWhenClassExists() {
+        Long id = 1L;
+
+        Classes existingClass = new Classes();
+        existingClass.setId(id);
+
+        when(classService.getClassById(id)).thenReturn(Optional.of(existingClass));
+
+        // Criando um objeto Classes simulado para representar a classe atualizada
+        Classes updatedClass = Classes.builder()
+                .id(id)
+                .learningPath("TurminhaDoTeste")
+                .sprint(2).build();
+
+        when(classService.saveClass(any(Classes.class))).thenReturn(updatedClass);
+
+        ResponseEntity<?> responseEntity = classController.updateClass(updatedClass);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        ErrorResponse errorResponse = (ErrorResponse) responseEntity.getBody();
+        Assertions.assertNotNull(errorResponse);
+        assertEquals("Turma atualizada com sucesso", errorResponse.getMessage());
     }
 
+    @Test
+    public void testAddClass() {
+        Classes classToAdd = Classes.builder()
+                .id(1L)
+                .learningPath("TestClass")
+                .sprint(10)
+                .build();
+
+        when(classService.saveClass(any(Classes.class))).thenReturn(classToAdd);
+
+
+
+        ResponseEntity<?> responseEntity = classController.addClass(classToAdd);
+
+
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+
+        Classes savedClass = (Classes) responseEntity.getBody();
+        assertThat(savedClass).isNotNull();
+        assertEquals("TestClass", savedClass.getLearningPath());
+        assertEquals(10, savedClass.getSprint());
+
+    }
 
 
     @Test
@@ -74,7 +111,7 @@ public class ClassControllerTest {
     }
 
     @Test
-    public void testGetAllClassesWithClasses() throws Exception {
+    public void ClassController_GetAllClasses_ReturnAllClasses() throws Exception {
         List<Classes> classesList = new ArrayList<>();
         classesList.add(new Classes(1L, "Java", 1));
         classesList.add(new Classes(2L, "AWS", 2));
@@ -90,7 +127,7 @@ public class ClassControllerTest {
     }
 
     @Test
-    public void testGetClassByIdWhenClassNotFound() {
+    public void ClassController_GetAllClasses_ReturnClassNotFound() {
         Long id = 1L;
 
         when(classService.getClassById(id)).thenReturn(Optional.empty());
@@ -105,7 +142,7 @@ public class ClassControllerTest {
     }
 
     @Test
-    public void testGetClassByIdWhenClassFound() {
+    public void ClassController_GetClassById_ReturnClassById() {
         Long id = 1L;
 
         Classes classFound = Classes.builder().learningPath("AWS").sprint(2).build();
@@ -126,7 +163,7 @@ public class ClassControllerTest {
     }
 
     @Test
-    public void testDeleteClassWhenClassExists() {
+    public void ClassController_DeleteClass_ReturnNoContent() {
         Long id = 1L;
 
 
@@ -140,9 +177,9 @@ public class ClassControllerTest {
 
         verify(classService, times(1)).deleteClass(id);
     }
-/*
+
     @Test
-    public void testDeleteClassWhenClassDoesNotExist() {
+    public void ClassController_DeleteClass_ReturnBadRequest() {
         Long id = 1L;
 
         when(classService.getClassById(id)).thenReturn(Optional.empty());
@@ -153,7 +190,6 @@ public class ClassControllerTest {
 
         verify(classService, never()).deleteClass(id);
     }
-*/
 
 
     }

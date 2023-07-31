@@ -75,10 +75,14 @@ public class ClassController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteClass(@PathVariable Long id) {
+        Optional<Classes> optionalClass = classService.getClassById(id);
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar a turma pois ela não existe"
                 , new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        if (optionalClass.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
         classService.deleteClass(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
 
