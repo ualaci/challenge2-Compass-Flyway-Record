@@ -69,8 +69,8 @@ public class OrganizerController {
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Organizer organizer, @PathVariable Long id){
+    @PutMapping
+    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Organizer organizer){
         ErrorResponse errorResponseSuccess = new ErrorResponse("Organizador atualizado com sucesso!",
                 new Timestamp(System.currentTimeMillis()), HttpStatus.OK.name());
         ErrorResponse errorResponseFail = new ErrorResponse("Não foi possível atualizar o organizador",

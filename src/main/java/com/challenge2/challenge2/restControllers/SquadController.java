@@ -8,9 +8,7 @@ import com.challenge2.challenge2.services.impl.StudentServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,8 +71,8 @@ public class SquadController {
 
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Squad squad, @PathVariable Long id){
+    @PutMapping
+    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Squad squad){
         ErrorResponse errorResponseSucces = new ErrorResponse("Squad atualizada com sucesso!"
                 , new Timestamp(System.currentTimeMillis()),HttpStatus.OK.name());
         ErrorResponse errorResponseFail = new ErrorResponse("Squad não existe, portanto não pode ser alterada"
