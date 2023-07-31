@@ -1,12 +1,15 @@
 package com.challenge2.challenge2.restControllers.controllersAdvices;
 
 import com.challenge2.challenge2.exceptions.BadRequestException;
+import com.challenge2.challenge2.exceptions.InvalidRoleException;
+import org.modelmapper.ValidationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
@@ -15,13 +18,15 @@ import com.challenge2.challenge2.exceptions.NotFoundException;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ClassesRestExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex){
-        ErrorResponse error = new ErrorResponse(ex.getMessage(), new Timestamp(System.currentTimeMillis()),HttpStatus.NOT_FOUND.name());
+    public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
@@ -33,8 +38,8 @@ public class ClassesRestExceptionHandler {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex){
-        ErrorResponse error = new ErrorResponse(ex.getMessage(), new Timestamp(System.currentTimeMillis()),HttpStatus.BAD_REQUEST.name());
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
+        ErrorResponse error = new ErrorResponse(ex.getMessage(), new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
@@ -49,6 +54,7 @@ public class ClassesRestExceptionHandler {
         return new ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Object> handleIllegalArgumentException(
             IllegalArgumentException ex, WebRequest request) {
@@ -62,3 +68,5 @@ public class ClassesRestExceptionHandler {
 
     
 }
+
+   
