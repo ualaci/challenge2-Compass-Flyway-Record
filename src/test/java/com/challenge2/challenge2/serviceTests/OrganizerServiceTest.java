@@ -2,6 +2,7 @@ package com.challenge2.challenge2.serviceTests;
 
 
 import com.challenge2.challenge2.entities.Organizer;
+import com.challenge2.challenge2.enums.OrganizerEnums;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
 import com.challenge2.challenge2.services.impl.OrganizerServiceImpl;
 import org.junit.Before;
@@ -12,6 +13,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static com.challenge2.challenge2.enums.OrganizerEnums.Instructor;
@@ -116,6 +119,35 @@ public class OrganizerServiceTest {
 
         Optional<Organizer> deletedOrganizerOptional = organizerServiceImpl.getOrganizerById(organizerId);
         assertTrue(deletedOrganizerOptional.isPresent());
+    }
+
+
+    @Test
+    public void testGetAllOrganizers(){
+        Long organizerId = 1L;
+        Organizer mockOrganizer = new Organizer();
+        mockOrganizer.setId(organizerId);
+        mockOrganizer.setName("John Doe");
+        mockOrganizer.setRole(OrganizerEnums.Instructor);
+
+        List<Organizer> organizerList = new ArrayList<>();
+        organizerList.add(mockOrganizer);
+
+
+        when(organizerRepository.findAll()).thenReturn(organizerList);
+
+
+        List<Organizer> result = organizerServiceImpl.getAllOrganizers();
+
+
+        verify(organizerRepository, times(1)).findAll();
+
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(organizerId, result.get(0).getId());
+        assertEquals("John Doe", result.get(0).getName());
+        assertEquals(OrganizerEnums.Instructor, result.get(0).getRole());
     }
 
 

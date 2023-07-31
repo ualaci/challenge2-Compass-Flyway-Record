@@ -13,6 +13,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -128,6 +130,32 @@ public class StudentServiceTest {
         Optional<Student> deletedStudentOptional = studentServiceImpl.getStudentById(studentId);
         assertTrue(deletedStudentOptional.isPresent());
     }
+
+    @Test
+    public void testgetAllStudents(){
+        Long studentId = 1L;
+        Student mockStudent = new Student();
+        mockStudent.setId(studentId);
+        mockStudent.setName("John Doe");
+
+
+        when(studentRepository.findAll()).thenReturn(Arrays.asList(mockStudent));
+
+
+        List<Student> students = studentServiceImpl.getAllStudents();
+
+
+        assertNotNull(students);
+        assertEquals(1, students.size());
+
+        Student retrievedStudent = students.get(0);
+        assertEquals(studentId, retrievedStudent.getId());
+        assertEquals("John Doe", retrievedStudent.getName());
+
+        verify(studentRepository, times(1)).findAll();
+    }
+
+
 
 }
 

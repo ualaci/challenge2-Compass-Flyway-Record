@@ -12,6 +12,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -116,6 +118,37 @@ public class ClassServiceTest {
         assertTrue(deletedClassOptional.isPresent());
     }
 
+    @Test
+    public void testgetAllClasses(){
+        Classes class1 = new Classes();
+        class1.setId(1L);
+        class1.setLearningPath("AWS Spring");
+        class1.setSprint(2);
+
+        Classes class2 = new Classes();
+        class2.setId(2L);
+        class2.setLearningPath("React Native");
+        class2.setSprint(3);
+
+        List<Classes> classList = new ArrayList<>();
+        classList.add(class1);
+        classList.add(class2);
+
+        when(classRepository.findAll()).thenReturn(classList);
+
+
+        List<Classes> result = classServiceImpl.getAllClasses();
+
+
+        verify(classRepository, times(1)).findAll();
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("AWS Spring", result.get(0).getLearningPath());
+        assertEquals(2, result.get(0).getSprint());
+        assertEquals("React Native", result.get(1).getLearningPath());
+        assertEquals(3, result.get(1).getSprint());
+    }
 
 
 }
