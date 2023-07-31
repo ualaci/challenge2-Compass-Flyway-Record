@@ -2,7 +2,6 @@ package com.challenge2.challenge2.restControllers;
 
 import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.exceptions.BadRequestException;
-import com.challenge2.challenge2.exceptions.InvalidRoleException;
 import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.entities.Squad;

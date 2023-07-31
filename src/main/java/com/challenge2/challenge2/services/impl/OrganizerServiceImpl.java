@@ -1,7 +1,6 @@
 package com.challenge2.challenge2.services.impl;
 import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.enums.OrganizerEnums;
-import com.challenge2.challenge2.exceptions.InvalidRoleException;
 import com.challenge2.challenge2.exceptions.NotFoundException;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
 import org.springframework.stereotype.Service;

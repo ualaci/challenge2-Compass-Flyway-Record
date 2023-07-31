@@ -1,7 +1,6 @@
 package com.challenge2.challenge2.restControllers.controllersAdvices;
 
 import com.challenge2.challenge2.exceptions.BadRequestException;
-import com.challenge2.challenge2.exceptions.InvalidRoleException;
 import org.modelmapper.ValidationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
