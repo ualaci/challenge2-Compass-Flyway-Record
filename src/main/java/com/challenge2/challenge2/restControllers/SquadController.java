@@ -17,8 +17,10 @@ import java.util.Optional;
 public class SquadController {
 
     private final SquadServiceImpl squadService;
-    public SquadController (SquadServiceImpl squadService, StudentServiceImpl studentService){
+    private final StudentServiceImpl studentService;
+    public SquadController (SquadServiceImpl squadService, StudentServiceImpl studentService, StudentServiceImpl studentService1){
         this.squadService = squadService;
+        this.studentService = studentService1;
     }
 
     @GetMapping
@@ -49,6 +51,9 @@ public class SquadController {
     @PostMapping
     public ResponseEntity<?> createSquad(@RequestBody SquadDTO squadDTO) {
         Squad createdSquad = squadService.createSquadWithStudents(squadDTO);
+        //if (createdSquad!=null) squadService.putSquadInStudents(createdSquad, squadDTO);
+
+
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar a squad"
                 , new Timestamp(System.currentTimeMillis()),HttpStatus.BAD_REQUEST.name());
         if(createdSquad == null){
@@ -65,7 +70,7 @@ public class SquadController {
                 , new Timestamp(System.currentTimeMillis()),HttpStatus.BAD_REQUEST.name());
 
         return squadService.getSquadById(id).map(entidade ->{
-            squadService.deleteSquad(entidade.getSquadId());
+            squadService.deleteSquad(entidade.getId());
             return new ResponseEntity<>( HttpStatus.NO_CONTENT);
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
 
@@ -78,7 +83,7 @@ public class SquadController {
         ErrorResponse errorResponseFail = new ErrorResponse("Squad não existe, portanto não pode ser alterada"
                 , new Timestamp(System.currentTimeMillis()),HttpStatus.BAD_REQUEST.name());
 
-        return squadService.getSquadById(squad.getSquadId()).map(entidade -> {
+        return squadService.getSquadById(squad.getId()).map(entidade -> {
             squadService.saveSquad(squad);
             return new ResponseEntity<>(errorResponseSucces, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(errorResponseFail, HttpStatus.BAD_REQUEST));

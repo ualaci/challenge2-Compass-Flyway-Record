@@ -51,7 +51,7 @@ public class SquadServiceTest {
     @Test
     public void testCreateSquad() {
         Squad mockSquad = new Squad();
-        mockSquad.setSquadId(1L);
+        mockSquad.setId(1L);
         mockSquad.setSquadName("Spring Force");
 
 
@@ -63,7 +63,7 @@ public class SquadServiceTest {
 
 
         assertNotNull(savedSquad);
-        assertNotNull(savedSquad.getSquadId());
+        assertNotNull(savedSquad.getId());
 
 
         assertEquals("Spring Force", savedSquad.getSquadName());
@@ -73,14 +73,14 @@ public class SquadServiceTest {
     public void testGetSquadById() {
         Long SquadId = 1L;
         Squad mockSquad = new Squad();
-        mockSquad.setSquadId(SquadId);
+        mockSquad.setId(SquadId);
         when(squadRepository.findById(SquadId)).thenReturn(Optional.of(mockSquad));
 
         Optional<Squad> optionalSquad = squadServiceImpl.getSquadById(SquadId);
         assertTrue(optionalSquad.isPresent());
 
         Squad Squad = optionalSquad.get();
-        assertEquals(SquadId, Squad.getSquadId());
+        assertEquals(SquadId, Squad.getId());
     }
 
 
@@ -91,7 +91,7 @@ public class SquadServiceTest {
         Long SquadId = 1L;
 
         Squad mockSquad = new Squad();
-        mockSquad.setSquadId(SquadId);
+        mockSquad.setId(SquadId);
         mockSquad.setSquadName("ByteAnt");
 
 
@@ -120,7 +120,7 @@ public class SquadServiceTest {
         Long SquadId = 1L;
 
         Squad mockSquad = new Squad();
-        mockSquad.setSquadId(SquadId);
+        mockSquad.setId(SquadId);
         mockSquad.setSquadName("Spring Force");
 
         when(squadRepository.findById(SquadId)).thenReturn(Optional.of(mockSquad));
