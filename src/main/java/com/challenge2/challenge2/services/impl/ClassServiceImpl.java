@@ -25,7 +25,6 @@ public class ClassServiceImpl implements ClassService{
 
     @Override
     public Optional<Classes> getClassById(Long id) {
-
         return classRepository.findById(id);
     }
 

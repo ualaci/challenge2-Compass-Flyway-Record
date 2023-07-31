@@ -60,7 +60,7 @@ public class ClassController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(savedClass);
     }
-
+/*
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteClass(@PathVariable Long id) {
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar a turma pois ela não existe"
@@ -71,7 +71,16 @@ public class ClassController {
                     return new ResponseEntity<>( HttpStatus.NO_CONTENT);
                 })
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse));
+    }*/
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteClass(@PathVariable Long id) {
+        ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar a turma pois ela não existe"
+                , new Timestamp(System.currentTimeMillis()), HttpStatus.NOT_FOUND.name());
+        classService.deleteClass(id);
+        return ResponseEntity.noContent().build();
     }
+
 
     @PutMapping
     public ResponseEntity<?> updateClass(@RequestBody Classes classes) {
