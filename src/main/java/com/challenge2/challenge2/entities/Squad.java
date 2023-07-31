@@ -8,17 +8,15 @@ import java.util.List;
 
 @Entity
 @Data
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Squad{
 
     @Id
-    @Column(name = "squadId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long squadId;
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "squadName")
     private String squadName;
