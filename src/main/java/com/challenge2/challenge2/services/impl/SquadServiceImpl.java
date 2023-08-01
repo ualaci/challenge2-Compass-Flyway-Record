@@ -18,10 +18,11 @@ import java.util.Optional;
 public class SquadServiceImpl implements SquadService{
 
 
+
     private static SquadRepository squadRepository;
     private static StudentRepository studentRepository;
 
-    @Autowired
+
     public SquadServiceImpl(SquadRepository squadRepository, StudentRepository studentRepository) {
         SquadServiceImpl.studentRepository = studentRepository;
         SquadServiceImpl.squadRepository = squadRepository;
@@ -44,6 +45,8 @@ public class SquadServiceImpl implements SquadService{
         return squadRepository.save(squad);
     }
 
+
+    /*
     public Squad createSquadWithStudents(SquadDTO squadDTO) {
 
         List<Long> studentIds = squadDTO.getStudents();
@@ -63,6 +66,27 @@ public class SquadServiceImpl implements SquadService{
             squad.getStudents().add(student.get());
             studentRepository.findById(studentId).get().setSquad(squad);
         }
+        return squadRepository.save(squad);
+    }*/
+
+    public Squad createSquadWithStudents(SquadDTO squadDTO) {
+        List<Long> studentIds = squadDTO.getStudents();
+        Squad squad = new Squad();
+        squad.setSquadName(squadDTO.getSquadName());
+
+        for (Long studentId : studentIds) {
+            Optional<Student> studentOptional = studentRepository.findById(studentId);
+            Student student = studentOptional.orElseThrow(() -> new IllegalArgumentException("O aluno com ID " + studentId + " não foi encontrado."));
+            System.out.println(studentOptional.get().getId());
+
+            if (student.getSquad() != null) {
+                throw new IllegalArgumentException("O aluno já se encontra em um squad, remova-o do squad para adicioná-lo em outro");
+            }
+
+            squad.getStudents().add(student);
+            student.setSquad(squad);
+        }
+
         return squadRepository.save(squad);
     }
 

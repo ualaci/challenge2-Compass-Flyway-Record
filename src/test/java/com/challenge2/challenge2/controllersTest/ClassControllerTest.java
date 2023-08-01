@@ -58,7 +58,6 @@ public class ClassControllerTest {
 
         when(classService.getClassById(id)).thenReturn(Optional.of(existingClass));
 
-        // Criando um objeto Classes simulado para representar a classe atualizada
         Classes updatedClass = Classes.builder()
                 .id(id)
                 .learningPath("TurminhaDoTeste")
@@ -189,6 +188,5 @@ public class ClassControllerTest {
 
         verify(classService, never()).deleteClass(id);
     }
-
 
     }

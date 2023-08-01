@@ -46,4 +46,16 @@ public class Student extends User{
     public Student(Long studentID) {
         this.setId(studentID);
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "college='" + college + '\'' +
+                ", grade=" + grade +
+                ", attendance=" + attendance +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", squad=" + squad.getSquadName() +
+                '}';
+    }
 }
