@@ -140,12 +140,12 @@ public class SquadServiceTest {
     public void testGetAllSquads(){
         Long squadId1 = 1L;
         Squad mockSquad1 = new Squad();
-        mockSquad1.setSquadId(squadId1);
+        mockSquad1.setId(squadId1);
         mockSquad1.setSquadName("Squad 1");
 
         Long squadId2 = 2L;
         Squad mockSquad2 = new Squad();
-        mockSquad2.setSquadId(squadId2);
+        mockSquad2.setId(squadId2);
         mockSquad2.setSquadName("Squad 2");
 
         List<Squad> squadList = new ArrayList<>();
@@ -166,11 +166,11 @@ public class SquadServiceTest {
 
 
         Squad resultSquad1 = result.get(0);
-        assertEquals(squadId1, resultSquad1.getSquadId());
+        assertEquals(squadId1, resultSquad1.getId());
         assertEquals("Squad 1", resultSquad1.getSquadName());
 
         Squad resultSquad2 = result.get(1);
-        assertEquals(squadId2, resultSquad2.getSquadId());
+        assertEquals(squadId2, resultSquad2.getId());
         assertEquals("Squad 2", resultSquad2.getSquadName());
     }
 
@@ -204,7 +204,7 @@ public class SquadServiceTest {
 
         // Mock Squad object
         Squad mockSquad = new Squad();
-        mockSquad.setSquadId(1L);
+        mockSquad.setId(1L);
         mockSquad.setSquadName("Example Squad");
         List<Student> squadStudents = Arrays.asList(mockStudent1, mockStudent2, mockStudent3);
         mockSquad.setStudents(squadStudents);
@@ -227,4 +227,3 @@ public class SquadServiceTest {
     }
 
 }
-
