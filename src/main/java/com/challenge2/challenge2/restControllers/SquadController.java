@@ -17,10 +17,9 @@ import java.util.Optional;
 public class SquadController {
 
     private final SquadServiceImpl squadService;
-    private final StudentServiceImpl studentService;
-    public SquadController (SquadServiceImpl squadService, StudentServiceImpl studentService, StudentServiceImpl studentService1){
+
+    public SquadController (SquadServiceImpl squadService){
         this.squadService = squadService;
-        this.studentService = studentService1;
     }
 
     @GetMapping
@@ -82,6 +81,8 @@ public class SquadController {
                 , new Timestamp(System.currentTimeMillis()),HttpStatus.OK.name());
         ErrorResponse errorResponseFail = new ErrorResponse("Squad não existe, portanto não pode ser alterada"
                 , new Timestamp(System.currentTimeMillis()),HttpStatus.BAD_REQUEST.name());
+
+        if (squad.getId()==null) return new ResponseEntity<>(errorResponseFail, HttpStatus.BAD_REQUEST);
 
         return squadService.getSquadById(squad.getId()).map(entidade -> {
             squadService.saveSquad(squad);

@@ -1,5 +1,6 @@
 package com.challenge2.challenge2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
