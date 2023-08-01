@@ -40,7 +40,6 @@ public class ClassServiceImpl implements ClassService{
     }
 
     public void deleteClass(Long id) {
-
         classRepository.deleteById(id);
     }
 
