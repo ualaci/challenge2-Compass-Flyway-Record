@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.challenge2.challenge2.entities.Classes;
+import com.challenge2.challenge2.repositories.ClassRepository;
 
 public interface ClassService {
 

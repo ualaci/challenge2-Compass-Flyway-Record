@@ -1,6 +1,7 @@
 package com.challenge2.challenge2.services.impl;
 
 import com.challenge2.challenge2.entities.Organizer;
+import com.challenge2.challenge2.enums.OrganizerEnums;
 import com.challenge2.challenge2.exceptions.NotFoundException;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface OrganizerService {
     Optional<Organizer> getOrganizerById(Long id);
 
     Organizer saveOrganizer(Organizer organizer);
+
+    boolean isValidRole(OrganizerEnums role);
 
     void deleteOrganizer(Long id);
 }

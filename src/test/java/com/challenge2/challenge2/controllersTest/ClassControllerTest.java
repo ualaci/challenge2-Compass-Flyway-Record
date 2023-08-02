@@ -126,7 +126,7 @@ public class ClassControllerTest {
     }
 
     @Test
-    public void ClassController_GetAllClasses_ReturnClassNotFound() {
+    public void ClassController_GetClassByID_ReturnClassNotFound() {
         Long id = 1L;
 
         when(classService.getClassById(id)).thenReturn(Optional.empty());

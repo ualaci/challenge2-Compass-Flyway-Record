@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class OrganizerServiceImpl implements OrganizerService{
 
-    private OrganizerRepository organizerRepository;
+    private final OrganizerRepository organizerRepository;
 
     public OrganizerServiceImpl(OrganizerRepository organizerRepository) {
 
@@ -37,7 +37,7 @@ public class OrganizerServiceImpl implements OrganizerService{
         return organizerRepository.save(organizer);
     }
 
-    private boolean isValidRole(OrganizerEnums role) {
+    public boolean isValidRole(OrganizerEnums role) {
         return role == OrganizerEnums.ScrumMaster || role == OrganizerEnums.Instructor || role == OrganizerEnums.Coordinator;
     }
 
