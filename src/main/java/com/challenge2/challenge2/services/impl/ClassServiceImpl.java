@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Service
 public class ClassServiceImpl implements ClassService{
-    private ClassRepository classRepository;
+    private final ClassRepository classRepository;
 
     public ClassServiceImpl(ClassRepository classRepository) {
 
