@@ -5,19 +5,15 @@ import com.challenge2.challenge2.entities.Squad;
 import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.repositories.SquadRepository;
 import com.challenge2.challenge2.repositories.StudentRepository;
-import com.challenge2.challenge2.services.impl.SquadService;
 import com.challenge2.challenge2.services.impl.SquadServiceImpl;
 import com.challenge2.challenge2.services.impl.StudentServiceImpl;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -227,4 +223,3 @@ public class SquadServiceTest {
     }
 
 }
-

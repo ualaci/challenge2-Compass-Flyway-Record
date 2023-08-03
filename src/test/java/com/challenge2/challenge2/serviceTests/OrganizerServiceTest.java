@@ -5,7 +5,6 @@ import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.enums.OrganizerEnums;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
 import com.challenge2.challenge2.services.impl.OrganizerServiceImpl;
-import org.checkerframework.checker.nullness.Opt;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -130,7 +129,7 @@ public class OrganizerServiceTest {
         Long organizerId = 1L;
         Organizer mockOrganizer = new Organizer();
         mockOrganizer.setId(organizerId);
-        mockOrganizer.setName("John Doe");
+        mockOrganizer.setName("Victor Renan");
         mockOrganizer.setRole(OrganizerEnums.Instructor);
 
         List<Organizer> organizerList = new ArrayList<>();
@@ -149,7 +148,7 @@ public class OrganizerServiceTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(organizerId, result.get(0).getId());
-        assertEquals("John Doe", result.get(0).getName());
+        assertEquals("Victor Renan", result.get(0).getName());
         assertEquals(OrganizerEnums.Instructor, result.get(0).getRole());
     }
 
