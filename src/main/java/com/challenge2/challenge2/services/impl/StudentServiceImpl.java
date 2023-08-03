@@ -23,13 +23,11 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Optional<Student> getStudentById(Long id) {
-
         return studentRepository.findById(id);
     }
 
     @Override
     public Student saveStudent(Student student) {
-
         return studentRepository.save(student);
     }
 

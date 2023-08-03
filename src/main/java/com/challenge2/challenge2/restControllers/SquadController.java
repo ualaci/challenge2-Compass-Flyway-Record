@@ -75,6 +75,8 @@ public class SquadController {
 
     }
 
+
+
     @PutMapping
     public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Squad squad){
         ErrorResponse errorResponseSucces = new ErrorResponse("Squad atualizada com sucesso!"
