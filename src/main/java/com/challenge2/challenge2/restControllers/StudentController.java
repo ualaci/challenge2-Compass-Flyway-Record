@@ -52,7 +52,7 @@ public class StudentController {
     }*/
 
     @PostMapping
-    public ResponseEntity<?> addStudent(@PathVariable Student student){
+    public ResponseEntity<?> addStudent(@RequestBody Student student){
         Student savedStudent = studentService.saveStudent(student);
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar o Estudante"
                 , new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
