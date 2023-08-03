@@ -2,6 +2,7 @@ package com.challenge2.challenge2.restControllers;
 
 import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.exceptions.BadRequestException;
+import com.challenge2.challenge2.exceptions.NotFoundException;
 import org.springframework.web.bind.annotation.RestController;
 import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.services.impl.OrganizerServiceImpl;
@@ -46,7 +47,7 @@ public class OrganizerController {
     }
 
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity <?> addOrganizer(@RequestBody Organizer organizer) {
         Organizer savedOrganizer = organizerService.saveOrganizer(organizer);
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar o organizador",
@@ -55,12 +56,25 @@ public class OrganizerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganizer);
+    }*/
+
+    @PostMapping
+    public ResponseEntity<?> addOrganizer(@RequestBody Organizer organizer) {
+        Optional<Organizer> savedOrganizer = organizerService.saveOrganizer(organizer);
+        if (savedOrganizer.isEmpty()) {
+            ErrorResponse errorResponse = new ErrorResponse("Não foi possível criar o organizador",
+                    new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganizer.get());
     }
 
 
 
 
-@DeleteMapping("/{id}")
+
+
+    @DeleteMapping("/{id}")
     public ResponseEntity <?> deleteOrganizer(@PathVariable Long id){
         ErrorResponse errorResponse = new ErrorResponse("Não foi possível deletar o organizador pois ele não existe",
                 new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
