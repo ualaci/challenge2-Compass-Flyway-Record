@@ -34,6 +34,7 @@ public class OrganizerController {
         }
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrganizerById(@PathVariable Long id) {
         ErrorResponse errorResponse = new ErrorResponse("Organizador não encontrado",
@@ -68,11 +69,6 @@ public class OrganizerController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganizer.get());
     }
-
-
-
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity <?> deleteOrganizer(@PathVariable Long id){

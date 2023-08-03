@@ -1,5 +1,6 @@
 package com.challenge2.challenge2.controllersTest;
 
+import com.challenge2.challenge2.dto.SquadDTO;
 import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.entities.Squad;
 import com.challenge2.challenge2.entities.Student;
@@ -12,9 +13,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,28 +36,20 @@ import java.util.Optional;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//@SpringBootTest
-@WebMvcTest(SquadController.class)
+@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
 public class SquadControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private SquadServiceImpl squadService;
 
-    @Mock
-    private SquadRepository squadRepository;
-
-    @Mock
-    private StudentRepository studentRepository;
 
     @InjectMocks
-    private StudentServiceImpl studentService;
-
     private SquadController squadController;
 
     private String asJsonString(Object obj) {
@@ -62,7 +59,11 @@ public class SquadControllerTest {
             throw new RuntimeException(e);
         }
     }
-
+    @BeforeEach
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(squadController).build();
+        updatedSquad.setStudents(new ArrayList<Student>(Collections.singletonList(student)));
+    }
 
     Squad updatedSquad = Squad.builder()
             .id(1L)
@@ -84,14 +85,6 @@ public class SquadControllerTest {
             .startDate(null)
             .endDate(null)
             .build();
-
-    @BeforeEach
-    public void setUp() {
-        studentService = new StudentServiceImpl(studentRepository);
-        squadService = new SquadServiceImpl(squadRepository, studentRepository);
-        squadController = new SquadController(squadService);
-        updatedSquad.setStudents(new ArrayList<Student>(Collections.singletonList(student)));
-    }
 
 
     @Test
@@ -116,42 +109,6 @@ public class SquadControllerTest {
     }
 
 
-/*
-    @Test
-    public void testAddSquad() {
-
-        when(squadService.saveSquad(any(Squad.class))).thenReturn(updatedSquad);
-        when(studentRepository.save(any(Student.class))).thenReturn(student);
-        when(studentService.saveStudent(any(Student.class))).thenReturn(student);
-
-        when(studentRepository.save(any(Student.class))).thenAnswer(invocation -> {
-            Student student = invocation.getArgument(0);
-            student.setId(1L);
-            return student;
-        });
-
-        studentService.saveStudent(student);
-
-        List<Long> studentIds = new ArrayList<>();
-        studentIds.add(1L);
-
-        SquadDTO squadDTO = SquadDTO.builder()
-                .squadName("TestSquad")
-                .students(studentIds).build();
-
-
-        ResponseEntity<?> responseEntity = squadController.createSquad(squadDTO);
-
-
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-
-        Squad savedSquad = (Squad) responseEntity.getBody();
-        assertThat(savedSquad).isNotNull();
-        assertEquals("TestSquad", savedSquad.getSquadName());
-        Assertions.assertNotNull(savedSquad.getStudents());
-        assertEquals(new ArrayList<Student>(Collections.singletonList(student)), savedSquad.getStudents());
-*/
-
     @Test
     public void SquadController_GetSquad_ReturnSquadNotFound() {
         Long id = 1L;
@@ -167,32 +124,8 @@ public class SquadControllerTest {
         assertEquals("Squad não encontrado", errorResponse.getMessage());
     }
 
-/*
     @Test
-    public void SquadController_GetAllSquads_ReturnAllSquads() throws Exception {
-        List<Squad> squadList = new ArrayList<>();
-        squadList.add(updatedSquad);
-
-        when(squadService.getAllSquads()).thenReturn(squadList);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/squad"))
-                .andExpect(status().isOk());
-                /*.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.squadName").value("TestSquad"))
-                .andExpect(jsonPath("$.students.length()").value(1))
-                .andExpect(jsonPath("$.students[0].name").value("TestStudent"))
-                .andExpect(jsonPath("$.students[0].email").value("testStudent@gmail.com"))
-                .andExpect(jsonPath("$.students[0].city").value("TestCity"))
-                .andExpect(jsonPath("$.students[0].password").value("TestPassword1234@#"))
-                .andExpect(jsonPath("$.students[0].college").value("UFES"))
-                .andExpect(jsonPath("$.students[0].grade").value(9f))
-                .andExpect(jsonPath("$.students[0].attendance").value(9f))
-                .andExpect(jsonPath("$.students[0].startDate").value(null))
-                .andExpect(jsonPath("$.students[0].endDate").value(null));
-    }*/
-    @Test
-    public void testGetAllSquads_EmptyList() throws Exception {
+    public void SquadController_GetAllSquads_ReturnNotFound() throws Exception {
         List<Squad> squadList = Collections.emptyList();
 
         when(squadService.getAllSquads()).thenReturn(squadList);
@@ -205,6 +138,25 @@ public class SquadControllerTest {
     }
 
     @Test
+    public void SquadController_addSquad_ReturnsCreatedSquad() throws Exception {
+        SquadDTO squadDTO = SquadDTO.builder()
+                .squadName("TestSquad")
+                .students(new ArrayList<Long>(Collections.singletonList(1L)))
+                .build();
+
+        when(squadService.createSquadWithStudents(squadDTO)).thenReturn(updatedSquad);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/squad")
+                        .content(objectMapper.writeValueAsString(squadDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(updatedSquad)));
+
+        verify(squadService, times(1)).createSquadWithStudents(squadDTO);
+    }
+
+    @Test
     public void SquadController_DeleteSquad_ReturnBadRequest() {
         Long id = 1L;
 
@@ -214,8 +166,7 @@ public class SquadControllerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
-        //squadService not a mock?
-        //verify(squadService, never()).deleteSquad(id);
+        verify(squadService, never()).deleteSquad(id);
     }
 
     @Test
@@ -231,7 +182,6 @@ public class SquadControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
 
-        //not a mock?
         //verify(squadService, times(1)).deleteSquad(id);
     }
 
