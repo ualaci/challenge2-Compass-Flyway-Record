@@ -11,15 +11,15 @@ import java.util.Optional;
 @Service
 public class OrganizerServiceImpl implements OrganizerService{
 
-    private OrganizerRepository organizerRepository;
+    private static OrganizerRepository organizerRepository;
 
     public OrganizerServiceImpl(OrganizerRepository organizerRepository) {
 
-        this.organizerRepository = organizerRepository;
+        OrganizerServiceImpl.organizerRepository = organizerRepository;
     }
 
     @Override
-    public List<Organizer> getAllOrganizers() throws NotFoundException{
+    public List<Organizer> getAllOrganizers() {
         return organizerRepository.findAll();
     }
 
@@ -30,14 +30,20 @@ public class OrganizerServiceImpl implements OrganizerService{
     }
 
     @Override
-    public Organizer saveOrganizer(Organizer organizer) {
-        if (!isValidRole(organizer.getRole())) {
-            throw new NotFoundException("O campo 'role' é inválido! O 'role' deve ser: ScrumMaster, Instructor, Cordinator");
+    public Optional<Organizer> saveOrganizer(Organizer organizer) {
+        Optional <Organizer> organizerOptional = Optional.of(organizer);
+        if (organizer == null){
+            throw new NotFoundException("O organizador não pode ser nulo!");
         }
-        return organizerRepository.save(organizer);
+
+        if (!isValidRole(organizer.getRole())) {
+            throw new NotFoundException("O campo 'role' é inválido! O 'role' deve ser: ScrumMaster, Instructor, Coordinator");
+        }
+        return Optional.of(organizerRepository.save(organizer));
     }
 
-    private boolean isValidRole(OrganizerEnums role) {
+
+    public boolean isValidRole(OrganizerEnums role) {
         return role == OrganizerEnums.ScrumMaster || role == OrganizerEnums.Instructor || role == OrganizerEnums.Coordinator;
     }
 

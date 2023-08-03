@@ -5,6 +5,7 @@ import com.challenge2.challenge2.entities.Organizer;
 import com.challenge2.challenge2.enums.OrganizerEnums;
 import com.challenge2.challenge2.repositories.OrganizerRepository;
 import com.challenge2.challenge2.services.impl.OrganizerServiceImpl;
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -44,15 +45,16 @@ public class OrganizerServiceTest {
         newOrganizer.setRole(ScrumMaster);
 
 
+        Optional<Organizer> optionalOrganizer = Optional.of(newOrganizer);
         when(organizerRepository.save(any(Organizer.class))).thenReturn(newOrganizer);
 
-
-        Organizer savedOrganizer = organizerServiceImpl.saveOrganizer(newOrganizer);
+        Optional<Organizer> savedOrganizer = organizerServiceImpl.saveOrganizer(newOrganizer);
 
         assertNotNull(savedOrganizer);
-        assertNotNull(savedOrganizer.getId());
-        assertEquals("Zezinho Scrum Master", savedOrganizer.getName());
-        assertEquals(ScrumMaster, savedOrganizer.getRole());
+        assertTrue(savedOrganizer.isPresent());
+        assertNotNull(savedOrganizer.get().getId());
+        assertEquals("Zezinho Scrum Master", savedOrganizer.get().getName());
+        assertEquals(ScrumMaster, savedOrganizer.get().getRole());
         Mockito.verify(organizerRepository, times(1)).save(any(Organizer.class));
     }
 
@@ -95,9 +97,10 @@ public class OrganizerServiceTest {
 
 
         when(organizerRepository.save(organizer)).thenReturn(organizer);
-        Organizer updatedOrganizer = organizerServiceImpl.saveOrganizer(organizer);
+        Optional<Organizer> updatedOrganizer = organizerServiceImpl.saveOrganizer(organizer);
         assertNotNull(updatedOrganizer);
-        assertEquals(updatedName, updatedOrganizer.getName());
+        assertTrue(updatedOrganizer.isPresent());
+        assertEquals(updatedName, updatedOrganizer.get().getName());
     }
 
     @Test
