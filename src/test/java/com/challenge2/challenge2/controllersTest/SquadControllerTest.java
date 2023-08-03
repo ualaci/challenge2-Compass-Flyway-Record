@@ -1,50 +1,37 @@
 package com.challenge2.challenge2.controllersTest;
 
-import com.challenge2.challenge2.dto.SquadDTO;
-import com.challenge2.challenge2.entities.Classes;
 import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.entities.Squad;
 import com.challenge2.challenge2.entities.Student;
 import com.challenge2.challenge2.repositories.SquadRepository;
 import com.challenge2.challenge2.repositories.StudentRepository;
-import com.challenge2.challenge2.restControllers.ClassController;
 import com.challenge2.challenge2.restControllers.SquadController;
-import com.challenge2.challenge2.services.impl.SquadService;
 import com.challenge2.challenge2.services.impl.SquadServiceImpl;
 import com.challenge2.challenge2.services.impl.StudentServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.cloud.contract.verifier.http.Request.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@SpringBootTest

@@ -11,11 +11,11 @@ import java.util.Optional;
 @Service
 public class OrganizerServiceImpl implements OrganizerService{
 
-    private final OrganizerRepository organizerRepository;
+    private static OrganizerRepository organizerRepository;
 
     public OrganizerServiceImpl(OrganizerRepository organizerRepository) {
 
-        this.organizerRepository = organizerRepository;
+        OrganizerServiceImpl.organizerRepository = organizerRepository;
     }
 
     @Override

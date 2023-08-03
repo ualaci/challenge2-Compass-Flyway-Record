@@ -71,7 +71,7 @@ public class OrganizerController {
     }
 
     @PutMapping
-    public ResponseEntity<ErrorResponse> updateSquad(@RequestBody Organizer organizer){
+    public ResponseEntity<ErrorResponse> updateOrganizer(@RequestBody Organizer organizer){
         ErrorResponse errorResponseSuccess = new ErrorResponse("Organizador atualizado com sucesso!",
                 new Timestamp(System.currentTimeMillis()), HttpStatus.OK.name());
         ErrorResponse errorResponseFail = new ErrorResponse("Não foi possível atualizar o organizador",
