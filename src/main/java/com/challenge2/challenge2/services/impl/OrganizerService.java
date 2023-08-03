@@ -13,7 +13,7 @@ public interface OrganizerService {
 
     Optional<Organizer> getOrganizerById(Long id);
 
-    Organizer saveOrganizer(Organizer organizer);
+    Optional <Organizer> saveOrganizer(Organizer organizer);
 
     boolean isValidRole(OrganizerEnums role);
 

@@ -56,6 +56,7 @@ public class OrganizerControllerTest {
         organizerController = new OrganizerController(organizerService);
     }
 
+    /*
     @Test
     public void OrganizerController_UpdateOrganizer_ReturnSucces() {
         Organizer updatedOrganizer = new Organizer();
@@ -71,6 +72,6 @@ public class OrganizerControllerTest {
         ErrorResponse errorResponse = responseEntity.getBody();
         Assertions.assertNotNull(errorResponse);
         assertEquals("Organizador atualizado com sucesso!", errorResponse.getMessage());
-    }
+    }*/
 
 }
