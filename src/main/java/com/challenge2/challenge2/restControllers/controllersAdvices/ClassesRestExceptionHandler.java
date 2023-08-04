@@ -43,7 +43,7 @@ public class ClassesRestExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
         ErrorResponse errorDetails = new ErrorResponse(
                 "Total Errors:" + ex.getErrorCount() + " First Error:" + ex.getFieldError().getDefaultMessage(), new Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
 

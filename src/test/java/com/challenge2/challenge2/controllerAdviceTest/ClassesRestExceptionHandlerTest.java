@@ -3,21 +3,14 @@ package com.challenge2.challenge2.controllerAdviceTest;
 import com.challenge2.challenge2.entities.ErrorResponse;
 import com.challenge2.challenge2.exceptions.BadRequestException;
 import com.challenge2.challenge2.exceptions.NotFoundException;
-import com.challenge2.challenge2.restControllers.ClassController;
 import com.challenge2.challenge2.restControllers.controllersAdvices.ClassesRestExceptionHandler;
-import com.challenge2.challenge2.services.impl.ClassServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.context.request.WebRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 public class ClassesRestExceptionHandlerTest {
@@ -80,6 +73,4 @@ public class ClassesRestExceptionHandlerTest {
 
         assertEquals(HttpStatus.BAD_REQUEST.name(), errorResponse.getHttpStatus());
     }
-
-
 }
