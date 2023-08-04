@@ -26,8 +26,12 @@ public class ClassesRestExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> globlalExceptionHandler(Exception ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse("Something went wrong", new Timestamp(System.currentTimeMillis()),HttpStatus.INTERNAL_SERVER_ERROR.name());
+    public ResponseEntity<ErrorResponse> globalExceptionHandler(Exception ex) {
+        ErrorResponse error = new ErrorResponse(
+                "Something went wrong: " + ex.getMessage(),
+                new Timestamp(System.currentTimeMillis()),
+                HttpStatus.INTERNAL_SERVER_ERROR.name());
+
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -48,8 +52,8 @@ public class ClassesRestExceptionHandler {
 
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(
-            IllegalArgumentException ex, WebRequest request) {
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
+            IllegalArgumentException ex) {
 
         ErrorResponse errorDetails = new ErrorResponse(
                 "Illegal Argument Exception: " + ex.getMessage(),
