@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +36,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = StudentController.class)
@@ -103,7 +103,28 @@ public class StudentControllerTest {
         }
 
     @Test
-    public void StudentController_GetStudent_ReturnStudentNotFound() {
+    public void StudentController_UpdateClass_ReturnBadRequest() throws Exception {
+        Student updatedStudent = new Student();
+        updatedStudent.setId(1L);
+        // Set other properties
+
+        when(studentService.getStudentById(1L)).thenReturn(Optional.empty());
+
+        ErrorResponse expectedErrorResponse = new ErrorResponse(
+                "Esse estudante não existe!",
+                new Timestamp(System.currentTimeMillis()),
+                HttpStatus.BAD_REQUEST.name());
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/student")
+                        .content(objectMapper.writeValueAsString(updatedStudent))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+        verify(studentService, never()).saveStudent(updatedStudent);
+    }
+
+    @Test
+    public void StudentController_GetStudentByID_ReturnStudentNotFound() {
         Long id = 1L;
 
         when(studentService.getStudentById(id)).thenReturn(Optional.empty());
@@ -207,23 +228,4 @@ public class StudentControllerTest {
         Assertions.assertNotNull(errorResponse);
         assertEquals("Estudante não encontrado na base de dados", errorResponse.getMessage());
     }
-/*
-    @Test
-    public void StudentController_PostStudentByID_ReturnStudent() throws Exception {
-
-        when(studentService.saveStudent(updatedStudent)).thenReturn(updatedStudent);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/student/{id}", updatedStudent.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("TestStudent"))
-                .andExpect(jsonPath("$.email").value("testStudent@gmail.com"))
-                .andExpect(jsonPath("$.city").value("TestCity"))
-                .andExpect(jsonPath("$.password").value("TestPassword1234@#"))
-                .andExpect(jsonPath("$.college").value("UFES"))
-                .andExpect(jsonPath("$.attendance").value(9.0))
-                .andExpect(jsonPath("$.grade").value(9.0))
-                .andExpect(jsonPath("$.startDate").value(updatedStudent.getStartDate()))
-                .andExpect(jsonPath("$.endDate").value(updatedStudent.getEndDate()));
-    }*/
 }
