@@ -26,11 +26,23 @@ public class StudentController {
     public StudentController(StudentServiceImpl studentService) {
         this.studentService = studentService;
     }
-
+/*
     @GetMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
 
+    }*/
+
+    @GetMapping
+    public ResponseEntity<?> getAllStudents() {
+        List<Student> students = studentService.getAllStudents();
+        ErrorResponse errorResponse = new ErrorResponse("Nenhum Estudante Encontrado"
+                , new Timestamp(System.currentTimeMillis()),HttpStatus.NOT_FOUND.name());
+        if(students.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(students);
+        }
     }
 
     @GetMapping("/{id}")
