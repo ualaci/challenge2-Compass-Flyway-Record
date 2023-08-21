@@ -184,11 +184,7 @@ public class SquadServiceTest {
         mockStudent3.setName("Bob Johnson");
 
 
-        SquadDTO squadDTO = new SquadDTO();
-        squadDTO.setSquadName("Example Squad");
-        List<Long> studentIds = Arrays.asList(1L, 2L, 3L);
-        squadDTO.setStudents(studentIds);
-
+        SquadDTO squadDTO = new SquadDTO("Example Squad", Arrays.asList(1L, 2L, 3L));
 
         // Mock studentRepository behavior
         when(studentRepository.existsById(1L)).thenReturn(true);

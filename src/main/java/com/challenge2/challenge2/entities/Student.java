@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @EqualsAndHashCode(callSuper = true)
@@ -31,12 +32,12 @@ public class Student extends User{
     @Column(name = "attendance")
     private Float attendance;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "startDate")
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
 
     @JsonIgnore
     @ManyToOne //(cascade = CascadeType.ALL)
@@ -50,7 +51,7 @@ public class Student extends User{
     @Override
     public String toString() {
         return "Student{" +
-                "college='" + college + '\'' +
+                "college='" + college +
                 ", grade=" + grade +
                 ", attendance=" + attendance +
                 ", startDate=" + startDate +

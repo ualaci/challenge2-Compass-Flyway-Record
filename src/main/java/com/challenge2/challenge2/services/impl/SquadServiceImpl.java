@@ -70,9 +70,9 @@ public class SquadServiceImpl implements SquadService{
     }*/
 
     public Squad createSquadWithStudents(SquadDTO squadDTO) {
-        List<Long> studentIds = squadDTO.getStudents();
+        List<Long> studentIds = squadDTO.students();
         Squad squad = new Squad();
-        squad.setSquadName(squadDTO.getSquadName());
+        squad.setSquadName(squadDTO.squadName());
 
         for (Long studentId : studentIds) {
             Optional<Student> studentOptional = studentRepository.findById(studentId);
