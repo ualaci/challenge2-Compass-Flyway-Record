@@ -110,7 +110,7 @@ public class SquadServiceTest {
         assertNotNull(updatedSquad);
         assertEquals(updatedName, updatedSquad.getSquadName());
     }
-
+/*
     @Test
     public void testDeleteSquad() {
         Long SquadId = 1L;
@@ -130,7 +130,39 @@ public class SquadServiceTest {
 
         Optional<Squad> deletedSquadOptional = squadServiceImpl.getSquadById(SquadId);
         assertTrue(deletedSquadOptional.isPresent());
+    }*/
+@Test
+public void testDeleteSquad() {
+    Squad squad = new Squad();
+    squad.setId(1L);
+    squad.setSquadName("Squad Test");
+
+    List<Student> students = new ArrayList<>();
+    Student student1 = new Student();
+    student1.setId(1L);
+    student1.setName("Student 1");
+    student1.setSquad(squad);
+    students.add(student1);
+
+    Student student2 = new Student();
+    student2.setId(2L);
+    student2.setName("Student 2");
+    student2.setSquad(squad);
+    students.add(student2);
+
+    squad.setStudents(students);
+
+    when(squadRepository.findById(1L)).thenReturn(Optional.of(squad));
+
+    squadServiceImpl.deleteSquad(1L);
+
+    verify(squadRepository, times(1)).delete(squad);
+
+    for (Student student : students) {
+        assertNull(student.getSquad());
     }
+}
+
 
     @Test
     public void testGetAllSquads(){

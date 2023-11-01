@@ -5,7 +5,12 @@ import org.springframework.http.HttpStatus;
 
 import java.sql.Timestamp;
 
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public record ErrorResponse (String message, Timestamp timestamp, String httpStatus){
+public class ErrorResponse {
+    public String message;
+    public Timestamp timestamp;
+    public String httpStatus;
 }

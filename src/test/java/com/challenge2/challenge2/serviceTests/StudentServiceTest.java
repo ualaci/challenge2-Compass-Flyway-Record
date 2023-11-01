@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -43,8 +44,8 @@ public class StudentServiceTest {
         mockStudent.setPassword("Abc@1234");
         mockStudent.setGrade(8.5f);
         mockStudent.setAttendance(90.0f);
-        mockStudent.setStartDate(LocalDateTime.now());
-        mockStudent.setEndDate(LocalDateTime.now().plusMonths(6));
+        mockStudent.setStartDate(LocalDate.from(LocalDateTime.now()));
+        mockStudent.setEndDate(LocalDate.from(LocalDateTime.now().plusMonths(6)));
 
 
         when(studentRepository.save(Mockito.any(Student.class))).thenReturn(mockStudent);

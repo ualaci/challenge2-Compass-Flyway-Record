@@ -5,5 +5,14 @@ import lombok.*;
 
 import java.util.List;
 
+@Data
 @Builder
-public record SquadDTO (String squadName, List<Long> students){}
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class SquadDTO {
+    private String squadName;
+    private List<Long> students;
+
+}

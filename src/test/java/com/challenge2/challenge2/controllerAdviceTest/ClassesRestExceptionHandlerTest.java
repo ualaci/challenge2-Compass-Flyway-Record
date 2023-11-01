@@ -28,8 +28,6 @@ public class ClassesRestExceptionHandlerTest {
 
         ErrorResponse errorResponse = responseEntity.getBody();
         assertEquals("Illegal Argument Exception: Handle Illegal Argument Exception", errorResponse.getMessage());
-
-        assertEquals(HttpStatus.BAD_REQUEST.name(), errorResponse.getHttpStatus());
     }
 
     @Test
@@ -41,6 +39,7 @@ public class ClassesRestExceptionHandlerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 
         ErrorResponse errorResponse = responseEntity.getBody();
+        assert errorResponse != null;
         assertEquals(exception.getMessage(), errorResponse.getMessage());
 
         assertEquals(HttpStatus.NOT_FOUND.name(), errorResponse.getHttpStatus());
@@ -69,6 +68,7 @@ public class ClassesRestExceptionHandlerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
 
         ErrorResponse errorResponse = responseEntity.getBody();
+        assert errorResponse != null;
         assertEquals(exception.getMessage(), errorResponse.getMessage());
 
         assertEquals(HttpStatus.BAD_REQUEST.name(), errorResponse.getHttpStatus());

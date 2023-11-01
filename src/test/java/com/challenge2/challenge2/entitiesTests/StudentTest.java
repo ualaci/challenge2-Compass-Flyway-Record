@@ -7,6 +7,8 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,8 +33,8 @@ public class StudentTest {
                 student.setCollege("University of Example");
                 student.setGrade(8.5f);
                 student.setAttendance(90.0f);
-                student.setStartDate(LocalDateTime.of(2023, 7, 1, 10, 0));
-                student.setEndDate(LocalDateTime.of(2023, 12, 31, 18, 0));
+                student.setStartDate(LocalDate.from(LocalDateTime.of(2023, 7, 1, 10, 0)));
+                student.setEndDate(LocalDate.from(LocalDateTime.of(2023, 12, 31, 18, 0)));
                 student.setSquad(new Squad());
 
         var violations = validator.validate(student);
@@ -49,8 +51,8 @@ public class StudentTest {
                 student.setCollege("College of Testing");
                 student.setGrade(15.0f);
                 student.setAttendance(85.0f);
-                student.setStartDate(LocalDateTime.of(2022, 9, 15, 9, 30));
-                student.setEndDate(LocalDateTime.of(2022, 12, 31, 18, 0));
+                student.setStartDate(LocalDate.from(LocalDateTime.of(2022, 9, 15, 9, 30)));
+                student.setEndDate(LocalDate.from(LocalDateTime.of(2022, 12, 31, 18, 0)));
                 student.setSquad(new Squad());
 
         var violations = validator.validate(student);
@@ -67,8 +69,8 @@ public class StudentTest {
                 student.setCollege("College of Testing");
                 student.setGrade(9.0F);
                 student.setAttendance(-10.0f);
-                student.setStartDate(LocalDateTime.of(2024, 1, 1, 12, 0));
-                student.setEndDate(LocalDateTime.of(2024, 6, 30, 18, 0));
+                student.setStartDate(LocalDate.from(LocalDateTime.of(2024, 1, 1, 12, 0)));
+                student.setEndDate(LocalDate.from(LocalDateTime.of(2024, 6, 30, 18, 0)));
                 student.setSquad(new Squad());
 
         var violations = validator.validate(student);

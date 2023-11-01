@@ -90,7 +90,7 @@ public class StudentController {
     @PutMapping
     public ResponseEntity<ErrorResponse> updateStudent(@RequestBody Student student) {
         ErrorResponse errorResponseSucces = new ErrorResponse("Estudante atualizado com sucesso!"
-                , new java.sql.Timestamp(System.currentTimeMillis()), HttpStatus.BAD_REQUEST.name());
+                , new java.sql.Timestamp(System.currentTimeMillis()), HttpStatus.OK.name());
 
         ErrorResponse errorResponseFail = new ErrorResponse("Esse estudante não existe!"
                 , new java.sql.Timestamp(System.currentTimeMillis()),HttpStatus.BAD_REQUEST.name());

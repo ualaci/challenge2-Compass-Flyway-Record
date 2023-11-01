@@ -135,7 +135,7 @@ public class ClassControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
 
         ErrorResponse errorResponse = (ErrorResponse) responseEntity.getBody();
-        assertNotNull(errorResponse);
+        Assertions.assertNotNull(errorResponse);
         assertEquals("Turma não encontrada", errorResponse.getMessage());
     }
 

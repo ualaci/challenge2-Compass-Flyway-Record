@@ -35,8 +35,7 @@ public class SquadServiceImpl implements SquadService{
 
     @Override
     public Optional<Squad> getSquadById(Long id) {
-        Optional<Squad> squadOptional = squadRepository.findById(id);
-        return squadOptional;
+        return squadRepository.findById(id);
     }
 
     @Override
@@ -70,9 +69,9 @@ public class SquadServiceImpl implements SquadService{
     }*/
 
     public Squad createSquadWithStudents(SquadDTO squadDTO) {
-        List<Long> studentIds = squadDTO.students();
+        List<Long> studentIds = squadDTO.getStudents();
         Squad squad = new Squad();
-        squad.setSquadName(squadDTO.squadName());
+        squad.setSquadName(squadDTO.getSquadName());
 
         for (Long studentId : studentIds) {
             Optional<Student> studentOptional = studentRepository.findById(studentId);
@@ -130,11 +129,26 @@ public class SquadServiceImpl implements SquadService{
         }
     }
 */
-
+/*
     @Override
     public void deleteSquad(Long id) {
 
         squadRepository.deleteById(id);
     }
+*/
 
+    @Override
+    @Transactional
+    public void deleteSquad(Long id) {
+        Optional<Squad> squadOptional = squadRepository.findById(id);
+        if (squadOptional.isEmpty()) {
+            throw new IllegalArgumentException("Squad com o ID fornecido não foi encontrado.");
+        }
+        Squad squad = squadOptional.get();
+        List<Student> students = squad.getStudents();
+        for (Student student : students) {
+            student.setSquad(null);
+        }
+        squadRepository.delete(squad);
+    }
 }
